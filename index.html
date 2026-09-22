@@ -712,12 +712,12 @@ const PULSE = {
   accountReach30dAvg: 21667,
   newFollowersDayAvg: 55,
   reachReelSet: 277,
-  followersDeltaText: "-9436 desde a última leitura",
-  mediaDeltaText: "-383 novas desde a última leitura (383 → 0)",
+  followersDeltaText: "+0 desde a última leitura",
+  mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
   reachReelSetNote: "vs. 255 na janela anterior.",
-  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (22/09):</b> seguidores e mídias zeraram nesta leitura (0 e 0, com deltas de -9436 e -383 desde a rodada anterior) enquanto alcance de conta (21667/dia) e alcance médio por Reel (277, vs. 255 na janela anterior) seguem em patamares normais. <b>DADO</b>: a queda para zero em ambas as métricas foi simultânea e abrupta, um padrão incompatível com perda orgânica de conta. <b>HIPÓTESE</b>: é bem mais provável falha de coleta (token ou permissão da API) do que uma perda real de 9436 seguidores num único ciclo — só dá pra confirmar checando o log da automação. O alcance por Reel segue com leve alta (+8,6% vs. janela anterior), dentro da mesma faixa de oscilação das últimas leituras, sem sinal de problema real de engajamento. Ação recomendada: não usar os números de seguidores/mídias desta rodada até validar a fonte, e revisar as credenciais do script update-pulse antes da próxima execução agendada.",
+  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (22/09):</b> seguidores e mídias seguem zerados nesta leitura, repetindo o mesmo padrão da rodada anterior — já são dois ciclos seguidos com essas duas métricas fora do ar. <b>DADO</b>: a média de novos seguidores/dia (55) continua positiva mesmo com o total de seguidores em zero, uma inconsistência interna que reforça falha de coleta e não perda real de conta. Alcance de conta (21667/dia) e alcance médio por Reel (277) permanecem nos mesmos patamares da leitura anterior, sinal de que só os campos de perfil (seguidores/mídias) estão comprometidos, não o alcance. <b>HIPÓTESE</b>: o problema é persistente, não pontual, e provavelmente está na integração com a API de perfil — vale escalar a checagem de credenciais como prioridade antes da próxima rodada. Ação recomendada: manter seguidores/mídias fora de qualquer decisão até o log da automação confirmar a causa.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
