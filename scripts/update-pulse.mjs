@@ -42,7 +42,7 @@ function fmtDayMonth(dateStr) {
 }
 
 async function windsorFetch(fields, { dateFrom, dateTo }) {
-  const url = new URL("https://connectors.windsor.ai/instagram");
+  const url = new URL("https://connectors.windsor.ai/all");
   url.searchParams.set("api_key", WINDSOR_API_KEY);
   url.searchParams.set("fields", fields.join(","));
   url.searchParams.set("date_from", dateFrom);
