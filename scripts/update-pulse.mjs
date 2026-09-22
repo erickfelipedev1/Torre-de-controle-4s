@@ -69,7 +69,7 @@ function avg(nums) {
 // ---- 1) Buscar dados no Windsor.ai --------------------------------------
 
 const today = daysAgo(0);
-const from30 = daysAgo(34); // folga de alguns dias pra garantir 30 linhas úteis
+const from30 = daysAgo(29); // folga de alguns dias pra garantir 30 linhas úteis
 
 const accountRows = (
   await windsorFetch(
