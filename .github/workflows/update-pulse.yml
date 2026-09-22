@@ -40,10 +40,11 @@ jobs:
       #    só o parágrafo de análise (achadoHtml) e commita tudo (números + texto).
       - name: Claude reescreve a análise e publica
         if: steps.fetch.outputs.changed == 'true'
-        uses: anthropics/claude-code-action@v1
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+    uses: anthropics/claude-code-action@v1
+    with:
+      claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      show_full_output: true
           prompt: |
             Abra o arquivo index.html deste repositório. Dentro dele, entre os
             marcadores "// PULSE_START" e "// PULSE_END", existe um objeto
