@@ -1,0 +1,42 @@
+name: Atualizar Pulso ao Vivo
+
+on:
+  schedule:
+    # 05:00, 13:00 e 21:00 UTC = 02:00, 10:00 e 18:00 (horário de Brasília, UTC-3)
+    # Ajuste os horários abaixo se quiser outra frequência.
+    - cron: "0 5,13,21 * * *"
+  workflow_dispatch: {} # permite rodar manualmente em Actions > Atualizar Pulso ao Vivo > Run workflow
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Buscar dados novos e reescrever o dashboard
+        env:
+          WINDSOR_API_KEY: ${{ secrets.WINDSOR_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/update-pulse.mjs
+
+      # Esse push já é suficiente: o Vercel e a Hostinger (deploy automático
+      # conectado ao GitHub, branch main) ficam de olho no repositório e
+      # republicam sozinhos sempre que index.html muda aqui.
+      - name: Commit e push no GitHub
+        run: |
+          git config user.name "torre-de-controle-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet -- index.html; then
+            echo "Nada mudou, sem commit."
+            exit 0
+          fi
+          git add index.html
+          git commit -m "chore: atualiza pulso ao vivo ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+          git push
