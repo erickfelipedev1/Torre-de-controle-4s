@@ -1,0 +1,1373 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Torre de Controle 4S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#f4f5fa;
+  --bg-grid: rgba(20,24,38,0.035);
+  --surface:#ffffff;
+  --surface-2:#eef0f5;
+  --surface-raised:#ffffff;
+  --border:#dfe2ea;
+  --border-soft:#e9ebf1;
+  --text:#171a23;
+  --text-muted:#5b6172;
+  --text-dim:#8890a0;
+  --accent:#c2540f;
+  --accent-soft:#fdece0;
+  --accent-glow: rgba(255,138,61,0.18);
+  --violet:#6a56d6;
+  --violet-soft:#efecfc;
+  --topo:#0f8f8a;
+  --topo-soft:#e2f6f4;
+  --meio:#6a56d6;
+  --meio-soft:#efecfc;
+  --fundo:#c2453a;
+  --fundo-soft:#fbe9e7;
+  --good:#1a8a5e;
+  --warn:#b9791a;
+  --pink:#c22a6b;
+  --pink-soft:#fbe3ee;
+  --cyan:#0f7fa8;
+  --cyan-soft:#e1f2f9;
+  --gold:#96690a;
+  --gold-soft:#faf0d8;
+  --shadow: 0 1px 2px rgba(20,24,38,.04), 0 8px 24px rgba(20,24,38,.06);
+  --radius-s:9px;
+  --radius-m:16px;
+  --radius-l:22px;
+  --font-display:'Sora',system-ui,sans-serif;
+  --font-body:'IBM Plex Sans',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#060814;
+    --bg-grid: rgba(255,255,255,0.045);
+    --surface:#10142a;
+    --surface-2:#161b38;
+    --surface-raised:#181e40;
+    --border:#262e54;
+    --border-soft:#1a1f3c;
+    --text:#f3f5fc;
+    --text-muted:#9aa2c4;
+    --text-dim:#636b90;
+    --accent:#ff8a3d;
+    --accent-soft:rgba(255,138,61,0.16);
+    --accent-glow: rgba(255,138,61,0.42);
+    --violet:#8b7cf6;
+    --violet-soft:rgba(139,124,246,0.16);
+    --topo:#2dd4bf;
+    --topo-soft:rgba(45,212,191,0.16);
+    --meio:#8b7cf6;
+    --meio-soft:rgba(139,124,246,0.16);
+    --fundo:#f0685a;
+    --fundo-soft:rgba(240,104,90,0.16);
+    --good:#3ddc97;
+    --warn:#f0b843;
+    --pink:#ff4d92;
+    --pink-soft:rgba(255,77,146,0.16);
+    --cyan:#3ad2ff;
+    --cyan-soft:rgba(58,210,255,0.16);
+    --gold:#ffcf5c;
+    --gold-soft:rgba(255,207,92,0.18);
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 24px 70px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#060814;
+  --bg-grid: rgba(255,255,255,0.045);
+  --surface:#10142a;
+  --surface-2:#161b38;
+  --surface-raised:#181e40;
+  --border:#262e54;
+  --border-soft:#1a1f3c;
+  --text:#f3f5fc;
+  --text-muted:#9aa2c4;
+  --text-dim:#636b90;
+  --accent:#ff8a3d;
+  --accent-soft:rgba(255,138,61,0.16);
+  --accent-glow: rgba(255,138,61,0.42);
+  --violet:#8b7cf6;
+  --violet-soft:rgba(139,124,246,0.16);
+  --topo:#2dd4bf;
+  --topo-soft:rgba(45,212,191,0.16);
+  --meio:#8b7cf6;
+  --meio-soft:rgba(139,124,246,0.16);
+  --fundo:#f0685a;
+  --fundo-soft:rgba(240,104,90,0.16);
+  --good:#3ddc97;
+  --warn:#f0b843;
+  --pink:#ff4d92;
+  --pink-soft:rgba(255,77,146,0.16);
+  --cyan:#3ad2ff;
+  --cyan-soft:rgba(58,210,255,0.16);
+  --gold:#ffcf5c;
+  --gold-soft:rgba(255,207,92,0.18);
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 24px 70px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;}
+html{color-scheme:light dark;}
+body{
+  margin:0; background:var(--bg); color:var(--text); font-family:var(--font-body);
+  font-size:14.5px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 14% -10%, var(--accent-glow), transparent 42%),
+    radial-gradient(circle at 88% 4%, rgba(139,124,246,0.12), transparent 40%),
+    linear-gradient(var(--bg-grid) 1px, transparent 1px), linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+  background-size: auto, auto, 34px 34px, 34px 34px;
+  background-attachment: fixed;
+}
+h1,h2,h3,h4{font-family:var(--font-display); margin:0; text-wrap:balance;}
+p{margin:0;}
+::selection{background:var(--accent); color:#fff;}
+.mono{font-family:var(--font-mono);}
+.tabular{font-variant-numeric:tabular-nums;}
+button{font-family:inherit; cursor:pointer;}
+a{color:inherit;}
+::-webkit-scrollbar{width:10px; height:10px;}
+::-webkit-scrollbar-thumb{background:var(--border); border-radius:8px;}
+::-webkit-scrollbar-track{background:transparent;}
+
+/* ============ SHELL ============ */
+.shell{display:flex; min-height:100vh;}
+.sidebar{
+  width:236px; flex:none; background:var(--surface); border-right:1px solid var(--border);
+  display:flex; flex-direction:column; padding:22px 16px; gap:26px; position:sticky; top:0; height:100vh;
+}
+.brand{display:flex; align-items:center; gap:11px; padding:0 6px;}
+.brand-mark{
+  width:34px; height:34px; border-radius:10px; flex:none;
+  background: conic-gradient(from 220deg, var(--accent), var(--violet), var(--accent));
+  position:relative; box-shadow:0 0 0 1px var(--border-soft), 0 0 0 4px var(--accent-soft), 0 6px 18px var(--accent-glow);
+}
+.brand-mark::after{
+  content:""; position:absolute; inset:5px; border-radius:6px; background:var(--surface);
+  clip-path: polygon(50% 8%, 88% 90%, 50% 68%, 12% 90%);
+}
+.brand-name{font-family:var(--font-display); font-weight:700; font-size:15px; letter-spacing:.01em;}
+.brand-sub{font-size:10.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin-top:1px;}
+
+.navlist{display:flex; flex-direction:column; gap:3px;}
+.navlink{
+  display:flex; align-items:center; gap:11px; padding:10px 12px; border-radius:10px;
+  color:var(--text-muted); font-size:13.5px; font-weight:500; border:1px solid transparent;
+  background:transparent; text-align:left; width:100%; transition:background .12s, color .12s;
+}
+.navlink svg{width:17px; height:17px; flex:none; opacity:.85;}
+.navlink:hover{background:var(--surface-2); color:var(--text);}
+.navlink.active{background:var(--accent-soft); color:var(--accent); border-color:transparent; font-weight:600; box-shadow:0 0 0 1px var(--accent-soft), 0 4px 14px var(--accent-glow);}
+.navlink.active svg{opacity:1;}
+.nav-spacer{flex:1;}
+.sidebar-foot{border-top:1px solid var(--border-soft); padding-top:14px; font-size:11.5px; color:var(--text-dim);}
+.sidebar-foot b{color:var(--text-muted); font-weight:600;}
+
+.main{flex:1; min-width:0; display:flex; flex-direction:column;}
+.topbar{
+  position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--border); padding:14px 30px;
+  display:flex; align-items:center; gap:22px; flex-wrap:wrap;
+}
+.topbar-title{margin-right:auto;}
+.topbar-title h1{font-size:16px; font-weight:700;}
+.topbar-title span{font-size:11.5px; color:var(--text-dim);}
+.snap{display:flex; align-items:center; gap:8px; padding:6px 12px; border-radius:999px; background:var(--surface); border:1px solid var(--border); font-size:12px;}
+.snap .dot{width:6px; height:6px; border-radius:50%; background:var(--good); box-shadow:0 0 0 3px color-mix(in srgb, var(--good) 20%, transparent);}
+.snap b{font-family:var(--font-mono); font-weight:600;}
+.live-badge{display:flex; align-items:center; gap:7px; padding:6px 12px 6px 10px; border-radius:999px; background:var(--accent-soft); border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);}
+.live-badge .pulse{width:7px; height:7px; border-radius:50%; background:var(--accent); position:relative; flex:none;}
+.live-badge .pulse::after{content:""; position:absolute; inset:-4px; border-radius:50%; border:1.5px solid var(--accent); animation:livepulse 1.8s ease-out infinite;}
+@keyframes livepulse{0%{transform:scale(.5); opacity:.9;} 100%{transform:scale(1.9); opacity:0;}}
+.live-badge b{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; color:var(--accent); font-weight:700;}
+.live-clock{font-family:var(--font-mono); font-size:11px; color:var(--text-dim);}
+.live-clock b{color:var(--text-muted); font-weight:600;}
+.theme-toggle{
+  border:1px solid var(--border); background:var(--surface); border-radius:999px; padding:5px; display:flex; gap:2px;
+}
+.theme-toggle button{border:none; background:transparent; border-radius:999px; padding:5px 10px; font-size:11px; color:var(--text-dim); font-weight:600;}
+.theme-toggle button.on{background:var(--text); color:var(--bg);}
+
+.content{padding:26px 30px 60px; max-width:1360px; width:100%; margin:0 auto;}
+.view{display:none; animation:fadein .25s ease;}
+.view.active{display:block;}
+@keyframes fadein{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+
+/* ============ SHARED COMPONENTS ============ */
+.section-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:16px; flex-wrap:wrap;}
+.section-head h2{font-size:19px; font-weight:700;}
+.section-head p{color:var(--text-muted); font-size:12.5px; max-width:560px; margin-top:4px;}
+.eyebrow{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:6px; display:block;}
+
+.kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px;}
+.kpi{
+  background:linear-gradient(180deg, var(--surface-raised), var(--surface)); border:1px solid var(--border); border-radius:var(--radius-m); padding:18px 18px 16px;
+  position:relative; overflow:hidden; box-shadow:var(--shadow);
+}
+.kpi::before{content:""; position:absolute; top:0; left:0; right:0; height:2.5px; background:var(--kpi-c, var(--accent)); box-shadow:0 0 12px 0 var(--kpi-c, var(--accent-glow));}
+.kpi .lbl{font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em; font-weight:600;}
+.kpi .val{font-family:var(--font-mono); font-size:27px; font-weight:700; margin-top:8px; letter-spacing:-.01em; color:var(--kpi-c, var(--text));}
+.kpi .val small{font-size:13px; color:var(--text-dim); font-weight:500;}
+.kpi .delta{font-size:11.5px; margin-top:6px; color:var(--text-muted);}
+.kpi .delta.up{color:var(--good);} .kpi .delta.warn{color:var(--warn);}
+.goal-bar{margin-top:11px; height:8px; border-radius:999px; background:var(--surface-2); position:relative; overflow:visible;}
+.goal-bar i{display:block; height:100%; border-radius:999px; background:linear-gradient(90deg, var(--accent), var(--violet)); overflow:hidden;}
+.goal-bar span{position:absolute; top:50%; width:13px; height:13px; border-radius:50%; background:var(--text); border:2px solid var(--bg); transform:translate(-50%,-50%); box-shadow:0 0 0 3px var(--accent-glow); z-index:2;}
+.goal-bar b.goal-90{position:absolute; top:-9px; width:2px; height:26px; background:var(--gold); border-radius:1px; box-shadow:0 0 8px var(--gold); transform:translateX(-50%); z-index:1;}
+.goal-bar b.goal-90::after{content:"meta 90d"; position:absolute; top:-15px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:8.5px; font-weight:700; letter-spacing:.03em; color:var(--gold); white-space:nowrap;}
+.tag-pill{display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:999px; font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.04em;}
+.tag-topo{background:var(--topo-soft); color:var(--topo);}
+.tag-meio{background:var(--meio-soft); color:var(--meio);}
+.tag-fundo{background:var(--fundo-soft); color:var(--fundo);}
+.tag-misto{background:var(--surface-2); color:var(--text-dim);}
+.tag-organico{background:var(--accent-soft); color:var(--accent);}
+.tag-pink{background:var(--pink-soft); color:var(--pink);}
+.tag-cyan{background:var(--cyan-soft); color:var(--cyan);}
+.tag-gold{background:var(--gold-soft); color:var(--gold);}
+
+.card{background:linear-gradient(180deg, var(--surface-raised), var(--surface)); border:1px solid var(--border); border-radius:var(--radius-l); box-shadow:var(--shadow);}
+.grid-2{display:grid; grid-template-columns:1.3fr 1fr; gap:16px;}
+.callout{
+  border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--accent-soft);
+  border-radius:0 var(--radius-m) var(--radius-m) 0; padding:14px 16px; font-size:12.8px; color:var(--text);
+}
+.callout b{color:var(--accent);}
+
+/* charts */
+.chart-card{padding:18px 20px 14px;}
+.chart-card h3{font-size:13px; font-weight:600;}
+.chart-card .sub{font-size:11.5px; color:var(--text-dim); margin-top:2px; margin-bottom:12px;}
+svg text{font-family:var(--font-mono); fill:var(--text-dim);}
+.axis-line{stroke:var(--border); stroke-width:1;}
+.legend{display:flex; gap:14px; font-size:11px; color:var(--text-muted); margin-top:10px; flex-wrap:wrap;}
+.legend span{display:inline-flex; align-items:center; gap:5px;}
+.legend i{width:9px; height:9px; border-radius:2px; display:inline-block;}
+
+table{width:100%; border-collapse:collapse; font-size:12.5px;}
+th{text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-dim); font-weight:600; padding:8px 10px; border-bottom:1px solid var(--border);}
+td{padding:9px 10px; border-bottom:1px solid var(--border-soft);}
+tr:last-child td{border-bottom:none;}
+
+/* ============ PLANO 30 DIAS ============ */
+.plan-controls{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; align-items:center;}
+.chip-row{display:flex; gap:6px; flex-wrap:wrap;}
+.chip{
+  border:1px solid var(--border); background:var(--surface); color:var(--text-muted); border-radius:999px;
+  padding:6px 13px; font-size:12px; font-weight:600;
+}
+.chip.on{background:var(--text); color:var(--bg); border-color:var(--text);}
+.chip.on[data-f="topo"]{background:var(--topo); border-color:var(--topo); color:#04211f;}
+.chip.on[data-f="meio"]{background:var(--meio); border-color:var(--meio); color:#fff;}
+.chip.on[data-f="fundo"]{background:var(--fundo); border-color:var(--fundo); color:#fff;}
+.plan-meta{margin-left:auto; font-size:11.5px; color:var(--text-dim);}
+
+.week-block{margin-bottom:22px;}
+.week-title{font-family:var(--font-mono); font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.08em; margin-bottom:9px; display:flex; align-items:center; gap:8px;}
+.week-title::after{content:""; flex:1; height:1px; background:var(--border-soft);}
+.day-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px;}
+.day-card{
+  text-align:left; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-m);
+  padding:13px 14px 12px; display:flex; flex-direction:column; gap:8px; position:relative; transition:transform .12s, border-color .12s;
+}
+.day-card:hover{transform:translateY(-2px); border-color:var(--accent);}
+.day-card::before{content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px; border-radius:0 3px 3px 0; background:var(--dc, var(--topo));}
+.day-card .dc-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+.day-card .date{font-family:var(--font-mono); font-size:11px; color:var(--text-dim);}
+.day-card .fmt{font-size:10.5px; color:var(--text-dim); display:flex; align-items:center; gap:4px;}
+.day-card h4{font-size:13px; font-weight:600; line-height:1.35;}
+.day-card .hook-prev{font-size:11.5px; color:var(--text-muted); line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+.day-card .dc-bot{display:flex; justify-content:space-between; align-items:center; margin-top:2px;}
+.note-dot{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); display:none;}
+.note-dot.on{display:block;}
+.day-card.is-today{border-color:var(--good); box-shadow:0 0 0 1px var(--good), 0 0 0 5px color-mix(in srgb, var(--good) 14%, transparent), var(--shadow);}
+.day-card.is-past{opacity:.6;}
+.day-card.is-past:hover{opacity:1;}
+.today-pill{display:inline-block; margin-left:6px; padding:1px 7px; border-radius:999px; background:var(--good); color:#04211f; font-size:9px; font-weight:700; letter-spacing:.05em; font-family:var(--font-mono); vertical-align:middle;}
+
+/* ============ OVERLAY ============ */
+.overlay{position:fixed; inset:0; z-index:100; display:none;}
+.overlay.open{display:block;}
+.overlay-bg{position:absolute; inset:0; background:rgba(6,7,12,.55); backdrop-filter:blur(2px);}
+.overlay-panel{
+  position:absolute; top:0; right:0; height:100%; width:min(560px,100%); background:var(--surface);
+  border-left:1px solid var(--border); box-shadow:-20px 0 60px rgba(0,0,0,.25); overflow-y:auto;
+  transform:translateX(100%); transition:transform .22s ease;
+}
+.overlay.open .overlay-panel{transform:translateX(0);}
+.op-head{padding:22px 26px 16px; border-bottom:1px solid var(--border-soft); position:sticky; top:0; background:var(--surface); z-index:2;}
+.op-close{position:absolute; top:18px; right:20px; width:30px; height:30px; border-radius:8px; border:1px solid var(--border); background:var(--surface-2); color:var(--text-muted); font-size:15px; display:flex; align-items:center; justify-content:center;}
+.op-tags{display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;}
+.op-head h3{font-size:17px; font-weight:700; padding-right:36px;}
+.op-head .op-date{font-family:var(--font-mono); font-size:11.5px; color:var(--text-dim); margin-top:4px;}
+.op-body{padding:20px 26px 30px; display:flex; flex-direction:column; gap:18px;}
+.op-block .op-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--text-dim); font-weight:700; margin-bottom:6px; display:block;}
+.op-hook{font-family:var(--font-display); font-size:16px; font-weight:600; line-height:1.4; color:var(--text); background:var(--accent-soft); border-radius:var(--radius-s); padding:12px 14px; border-left:3px solid var(--accent);}
+.op-text{font-size:13px; color:var(--text-muted); line-height:1.6;}
+.op-cta{font-size:13px; font-weight:600; color:var(--violet); background:var(--violet-soft); display:inline-block; padding:8px 12px; border-radius:8px;}
+.op-field{width:100%; border:1px solid var(--border); background:var(--surface-2); color:var(--text); border-radius:8px; padding:9px 11px; font-family:inherit; font-size:12.5px; resize:vertical;}
+.op-field:focus{outline:2px solid var(--accent); outline-offset:1px;}
+.op-sync{font-size:10.5px; color:var(--text-dim); display:flex; align-items:center; gap:5px; margin-top:6px;}
+.op-sync .dot{width:5px; height:5px; border-radius:50%; background:var(--good);}
+.op-sync.local .dot{background:var(--text-dim);}
+
+/* ============ ORIENTACOES / COMPETITORS ============ */
+.comp-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:18px;}
+.comp-card{padding:18px; display:flex; flex-direction:column; gap:8px;}
+.comp-card.self{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent), var(--shadow);}
+.comp-card h4{font-size:14.5px;}
+.comp-card .badge{font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.06em;}
+.comp-card p{font-size:12px; color:var(--text-muted); line-height:1.55;}
+
+.checklist{display:flex; flex-direction:column; gap:9px;}
+.checklist li{list-style:none; display:flex; gap:10px; align-items:flex-start; font-size:12.8px; color:var(--text-muted);}
+.checklist .num{font-family:var(--font-mono); font-size:11px; color:var(--accent); font-weight:700; flex:none; width:20px;}
+
+.tab-hint{display:none;}
+@media(max-width:980px){
+  .sidebar{position:fixed; left:0; bottom:0; top:auto; width:100%; height:auto; flex-direction:row; overflow-x:auto; padding:10px 12px; z-index:30; border-right:none; border-top:1px solid var(--border);}
+  .brand,.sidebar-foot,.nav-spacer{display:none;}
+  .navlist{flex-direction:row; gap:4px;}
+  .navlink{flex-direction:column; gap:3px; font-size:10px; padding:7px 10px; white-space:nowrap;}
+  .navlink svg{width:16px;height:16px;}
+  .main{padding-bottom:70px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .grid-2{grid-template-columns:1fr;}
+  .comp-grid{grid-template-columns:1fr;}
+  .content{padding:20px 16px 90px;}
+  .topbar{padding:12px 16px;}
+}
+</style>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <div class="brand-name">Torre de Controle</div>
+        <div class="brand-sub">Jornada 4S</div>
+      </div>
+    </div>
+    <nav class="navlist" id="navlist">
+      <button class="navlink active" data-view="desempenho"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20h18M6 20V10M12 20V4M18 20v-7"/></svg>Desempenho</button>
+      <button class="navlink" data-view="plano"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Plano 30 dias</button>
+      <button class="navlink" data-view="stories"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M10 18h4"/></svg>Stories</button>
+      <button class="navlink" data-view="concorrencia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>Concorrência</button>
+      <button class="navlink" data-view="orientacoes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>Orientações</button>
+    </nav>
+    <div class="nav-spacer"></div>
+    <div class="sidebar-foot">
+      Gerente da conta<br><b>Raquel</b> · Grupo NOW<br>Dados IG via Windsor.ai · <span id="sidebarPulseDate">16/09/2026</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <h1 id="topbar-h1">Desempenho</h1>
+          <div class="live-badge"><span class="pulse"></span><b>AO VIVO</b></div>
+        </div>
+        <span id="topbar-sub">Pulso ao vivo (Windsor.ai) + diagnóstico de 21 meses (Camada 9)</span>
+        <span class="live-clock"> · atualizado às <b id="liveClock">--:--</b></span>
+      </div>
+      <div class="snap"><span class="dot"></span>Seguidores <b class="tabular" id="topSnapFollowers">9.436</b></div>
+      <div class="snap">Alcance médio/Reel <b class="tabular" style="color:var(--accent)">513</b> <span style="color:var(--text-dim)">→ meta 1.100–1.200</span></div>
+      <div class="snap" id="todaySnap" style="cursor:pointer;"><span class="dot" style="background:var(--good)"></span><span id="todaySnapTxt">Hoje</span></div>
+      <div class="theme-toggle" id="themeToggle">
+        <button data-t="light">Claro</button><button data-t="dark">Escuro</button><button data-t="auto" class="on">Auto</button>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- ============ DESEMPENHO ============ -->
+      <section class="view active" id="view-desempenho"></section>
+
+      <!-- ============ PLANO 30 DIAS ============ -->
+      <section class="view" id="view-plano"></section>
+
+      <!-- ============ STORIES ============ -->
+      <section class="view" id="view-stories"></section>
+
+      <!-- ============ CONCORRENCIA ============ -->
+      <section class="view" id="view-concorrencia"></section>
+
+      <!-- ============ ORIENTACOES ============ -->
+      <section class="view" id="view-orientacoes"></section>
+
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-bg" id="overlayBg"></div>
+  <div class="overlay-panel" id="overlayPanel"></div>
+</div>
+
+<script>
+/* ============================================================
+   TORRE DE CONTROLE 4S — dados
+   ============================================================ */
+
+const VIEWS = {
+  desempenho:{h1:"Desempenho", sub:"Pulso ao vivo (Windsor.ai) + diagnóstico de 21 meses (Camada 9)"},
+  plano:{h1:"Plano 30 dias", sub:"07/09 a 06/10/2026 — alta performance e crescimento previsível"},
+  stories:{h1:"Roteiros de Stories", sub:"8 templates recorrentes, por estágio de funil"},
+  concorrencia:{h1:"Concorrência", sub:"Jornada 4S x FEIHONG x China Gate"},
+  orientacoes:{h1:"Orientações práticas", sub:"Regras de craft, proporção de funil e checklist"}
+};
+
+// ---- 30-day plan ------------------------------------------------
+const DAYS30 = [
+{id:"p01",date:"07/09",wd:"Seg",week:"Semana 1",fmt:"Carrossel",funnel:"topo",
+ title:"Reforma tributária 2026: o que muda pra quem importa",
+ obj:"Gerar atenção e autoridade antecipando uma mudança regulatória que o setor ainda não rastreou.",
+ hook:"Em 2026 o imposto de quem importa da China pode cair de ~60% pra ~26,5% — e quase ninguém no seu setor sabe disso ainda.",
+ dev:"A reforma tributária substitui o emaranhado de tributos de importação (hoje acima de 60% fora do Remessa Conforme) por uma alíquota única estimada em 26,5% (CBS federal + IBS estadual/municipal), com transição entre 2026 e 2033. Carrossel de 6-7 slides em linguagem simples, sem jargão tributário, fechando com a pergunta de quem vai aproveitar essa curva primeiro.",
+ cta:"Comenta 'IVA' que a gente te explica o que muda no seu caso."},
+
+{id:"p02",date:"08/09",wd:"Ter",week:"Semana 1",fmt:"Reel",funnel:"topo",
+ title:"3 categorias de produto mais importadas da China agora",
+ obj:"Atrair quem ainda não pensa em importação como estratégia de produto, via curiosidade de categoria.",
+ hook:"3 categorias de produto estão sendo importadas da China num volume que a maioria dos empresários brasileiros ainda não percebeu.",
+ dev:"Reel rápido (25-30s) passando por 3 categorias reais de alto volume — eletrônicos e energia, casa e utilidades, ferramentas e máquinas industriais — fechando com a pergunta que interessa a quem vende produto físico: quanto da sua margem hoje é intermediário.",
+ cta:"Comenta sua categoria que a gente te diz se faz sentido pro seu caso."},
+
+{id:"p03",date:"09/09",wd:"Qua",week:"Semana 1",fmt:"Reel",funnel:"meio",
+ title:"Trading vs. fornecedor direto: o que muda na sua margem",
+ obj:"Mover quem já compra de trading/distribuidor pra considerar importar direto.",
+ hook:"Sua empresa já importa — só que através de outra empresa que está ficando com parte da sua margem.",
+ dev:"Reel comparando comprar via trading/distribuidor brasileiro vs. negociar direto com a fábrica: o que muda em preço de aquisição, poder de personalização do produto e velocidade de resposta à demanda.",
+ cta:"Manda pra quem ainda compra via trading achando que já 'importa'."},
+
+{id:"p04",date:"10/09",wd:"Qui",week:"Semana 1",fmt:"Reel",funnel:"fundo",
+ title:"Objeção — 'meu volume é pequeno demais pra importar'",
+ obj:"Neutralizar a objeção de volume, formato C (FAQ/objeção nomeada), maior conversão comprovada da conta.",
+ hook:"'Meu volume é pequeno demais pra importar' é a objeção mais comum que a gente ouve — e quase sempre está errada.",
+ dev:"Reel Formato C respondendo direto: existe MOQ negociável pra praticamente toda categoria, e o critério certo não é 'meu volume é grande', é 'esse volume, importado direto, já compensa frente ao que eu pago hoje'.",
+ cta:"Comenta seu volume atual que a gente te diz se compensa."},
+
+{id:"p05",date:"11/09",wd:"Sex",week:"Semana 1",fmt:"Carrossel",funnel:"meio",
+ title:"Metodologia 4 fases da 4S",
+ obj:"Apresentar o mecanismo (Sourcing → Gerenciamento → Follow Up → Desembaraço) como reason-why de segurança no processo.",
+ hook:"Importar não é um evento, é um processo — e processo sem etapa clara é onde tudo trava.",
+ dev:"Carrossel apresentando a metodologia em 4 fases, explicando o que cada fase resolve e qual objeção específica do ICP ela neutraliza: fornecedor errado, comunicação, prazo, burocracia.",
+ cta:"Comenta em qual dessas 4 fases você travaria sozinho hoje."},
+
+{id:"p06",date:"12/09",wd:"Sáb",week:"Semana 1",fmt:"Reel",funnel:"fundo",
+ title:"Objeção — 'já tentei importar e deu errado'",
+ obj:"Neutralizar a objeção mais carregada emocionalmente, com reason-why e risk reversal.",
+ hook:"Já tive uma importação que deu errado — por que seria diferente agora?",
+ dev:"Reel Formato C: quase toda experiência ruim de importação vem da ausência de um processo com etapas claras — sourcing, gerenciamento, follow-up, desembaraço — não do 'importar' em si.",
+ cta:"Manda pra quem já se queimou importando."},
+
+{id:"p07",date:"13/09",wd:"Dom",week:"Semana 1",fmt:"Reel",funnel:"topo",
+ title:"Bastidor: negociação real com fábrica chinesa",
+ obj:"Formato B (bastidor/prova social) validado para engajamento — gera atenção e humaniza a marca.",
+ hook:"Isso é uma negociação real com fábrica chinesa — sem cortes, sem roteiro.",
+ dev:"Bastidor autêntico mostrando um trecho real de negociação de preço e prazo com fornecedor, com legendas explicando o que está em jogo em cada momento: MOQ, prazo de amostra, condição de pagamento.",
+ cta:"Segue pra ver os próximos bastidores da operação."},
+
+{id:"p08",date:"14/09",wd:"Seg",week:"Semana 2",fmt:"Carrossel",funnel:"topo",
+ title:"Como a indústria chinesa realmente funciona (mito x realidade)",
+ obj:"Quebrar preconceito de categoria e gerar atenção ampla — conteúdo de mercado, não de oferta.",
+ hook:"Você imagina a indústria chinesa como fábricas fazendo cópia barata. A realidade é bem diferente — e isso muda sua estratégia de importar.",
+ dev:"Carrossel mito x realidade: 'é tudo pirataria' vs. parques industriais especializados por categoria com certificação internacional; 'preço baixo é qualidade ruim' vs. a diferença vem de escala, não de qualidade; 'só dá pra comprar em grande volume' vs. MOQs negociáveis pra quem sabe pedir certo.",
+ cta:"Comenta qual desses mitos você também acreditava."},
+
+{id:"p09",date:"15/09",wd:"Ter",week:"Semana 2",fmt:"Reel",funnel:"topo",
+ title:"O erro clássico #1 de quem começa a importar sozinho",
+ obj:"Educação de mercado com gancho de erro — alta taxa de salvamento esperada.",
+ hook:"O erro mais comum de quem começa a importar sozinho não é o fornecedor errado — é o passo que vem antes dele.",
+ dev:"Reel direto explicando que a maioria das operações trava não no fornecedor, mas na ausência de gerenciamento entre o pedido e a entrega — o intervalo onde comunicação, controle de qualidade e follow-up decidem se a operação dá certo.",
+ cta:"Salva esse vídeo antes de fechar sua primeira importação sozinho."},
+
+{id:"p10",date:"16/09",wd:"Qua",week:"Semana 2",fmt:"Reel",funnel:"meio",
+ title:"Reason-why: o mecanismo que reduz risco na importação",
+ obj:"Explicar o mecanismo único por trás do acompanhamento em 4 fases.",
+ hook:"Existe uma razão específica pra importação com gestão dar mais certo que importação sozinha — e não é só 'ter alguém junto'.",
+ dev:"Reel explicando que cada fase da metodologia tem um ponto de checagem que existe justamente onde a maioria das operações sem gestão falha: comunicação com fábrica, controle de qualidade, documentação, prazo.",
+ cta:"Segue pra entender cada etapa em detalhe nos próximos vídeos."},
+
+{id:"p11",date:"17/09",wd:"Qui",week:"Semana 2",fmt:"Reel",funnel:"fundo",
+ title:"Objeção — 'tenho medo de golpe ou fornecedor falso'",
+ obj:"Neutralizar a objeção de risco mais recorrente de quem nunca importou.",
+ hook:"Tenho medo de cair em golpe ou fornecedor falso — de longe, a preocupação mais recorrente de quem nunca importou.",
+ dev:"Reel Formato C explicando sinais reais de fornecedor não confiável e como o sourcing/gerenciamento existe justamente pra verificar isso antes do dinheiro sair — sem prometer risco zero, prometendo processo real de verificação.",
+ cta:"Comenta 'verificação' que a gente te explica como isso funciona na prática."},
+
+{id:"p12",date:"18/09",wd:"Sex",week:"Semana 2",fmt:"Carrossel",funnel:"meio",
+ title:"Importar por conta própria x com gestão: o custo real",
+ obj:"Reposicionar a percepção de custo, incluindo custos invisíveis do processo sem gestão.",
+ hook:"Importar sozinho parece mais barato — até você somar o que geralmente dá errado no meio do caminho.",
+ dev:"Carrossel comparando lado a lado os custos visíveis (frete, imposto) e os custos invisíveis de importar sem gestão — retrabalho, atraso, produto fora da especificação, tempo do próprio empresário — versus o custo de ter acompanhamento profissional.",
+ cta:"Comenta se você já teve algum desses custos invisíveis."},
+
+{id:"p13",date:"19/09",wd:"Sáb",week:"Semana 2",fmt:"Reel",funnel:"fundo",
+ title:"Objeção — 'meu fornecedor nacional já resolve'",
+ obj:"Confrontar diretamente a crença estratégica mais comum de quem nunca considerou importar.",
+ hook:"'Meu fornecedor nacional já resolve' — até você calcular quanto disso é margem que podia ser sua.",
+ dev:"Reel Formato C questionando essa crença com pergunta direta: quanto do preço pago hoje pro fornecedor nacional é, na real, margem de quem importa no seu lugar.",
+ cta:"Comenta quanto você paga hoje pro seu fornecedor nacional — sem compromisso, só pra comparar."},
+
+{id:"p14",date:"20/09",wd:"Dom",week:"Semana 2",fmt:"Reel",funnel:"topo",
+ title:"Autoridade: o que aprendi vendo empresário perder dinheiro importando errado",
+ obj:"Formato A (fundador direto pra câmera) — melhor formato de autoridade já validado.",
+ hook:"Depois de anos vendo empresário perder dinheiro importando errado, aprendi uma coisa que ninguém fala em post de rede social.",
+ dev:"Giuliano direto pra câmera, tom de comando: o padrão mais comum de prejuízo não é o golpe clássico — é o empresário que tenta economizar cortando etapas do processo e paga isso caro depois.",
+ cta:"Manda esse vídeo pra quem está pensando em importar sozinho."},
+
+{id:"p15",date:"21/09",wd:"Seg",week:"Semana 3",fmt:"Carrossel",funnel:"topo",
+ title:"Canton Fair: o que é e por que 60+ países vão pra lá 2x por ano",
+ obj:"Educar sobre a feira e preparar terreno de atenção para a cobertura ao vivo de outubro.",
+ hook:"Duas vezes por ano, mais de 60 países se encontram na maior feira de indústria do mundo — e a maioria dos empresários brasileiros nunca ouviu falar dela.",
+ dev:"Carrossel educativo sobre a Canton Fair: o que é, escala, por que ela concentra o acesso mais direto à indústria chinesa que existe, e como isso conecta com a cobertura ao vivo da 4S na próxima edição (15/10–04/11).",
+ cta:"Segue pra acompanhar a cobertura ao vivo da próxima edição."},
+
+{id:"p16",date:"22/09",wd:"Ter",week:"Semana 3",fmt:"Reel",funnel:"topo",
+ title:"Margem: o número que ninguém calcula certo antes de importar",
+ obj:"Conteúdo de utilidade prática ampla — gancho de erro de cálculo, alto potencial de salvamento.",
+ hook:"A maioria das empresas calcula errado a margem real de importar — e só descobre isso depois que o dinheiro já saiu.",
+ dev:"Reel explicando os custos que ficam de fora da conta rápida — frete internacional, impostos, armazenagem, câmbio no fechamento — e por que a margem real só aparece quando todos entram na conta desde o início.",
+ cta:"Salva esse vídeo pra usar na hora de fazer sua conta."},
+
+{id:"p17",date:"23/09",wd:"Qua",week:"Semana 3",fmt:"Reel",funnel:"meio",
+ title:"Case: cliente cortou custo trocando distribuidor por fábrica direta",
+ obj:"Prova social com número real — formato B, reforça mecanismo com evidência concreta.",
+ hook:"Um cliente trocou o distribuidor nacional pela fábrica direta — e o resultado apareceu na margem em menos de um trimestre.",
+ dev:"Reel de case narrando a situação antes (dependência de distribuidor, margem espremida) e depois (negociação direta, ganho de margem e controle sobre o produto), com número real sempre que disponível — pendência de cases quantificados sinalizada no diagnóstico.",
+ cta:"Comenta se você reconhece essa mesma situação na sua empresa."},
+
+{id:"p18",date:"24/09",wd:"Qui",week:"Semana 3",fmt:"Reel",funnel:"fundo",
+ title:"Objeção — 'não tenho tempo pra acompanhar isso'",
+ obj:"Neutralizar objeção de tempo/disponibilidade, mostrando o papel do gerenciamento terceirizado.",
+ hook:"'Não tenho tempo pra acompanhar um processo de importação' — e essa é exatamente a razão de existir gerenciamento terceirizado.",
+ dev:"Reel Formato C mostrando que o gargalo de tempo do empresário é resolvido pela fase de Gerenciamento e Follow Up: o cliente decide e acompanha os pontos-chave, não o processo inteiro dia a dia.",
+ cta:"Comenta quanto tempo por semana você imagina que isso tomaria."},
+
+{id:"p19",date:"25/09",wd:"Sex",week:"Semana 3",fmt:"Carrossel",funnel:"meio",
+ title:"O que os concorrentes não têm: fundador presente na fábrica",
+ obj:"Posicionamento — território de marca que nenhum concorrente direto ocupa hoje.",
+ hook:"Nenhum concorrente da 4S constrói marca em torno de um fundador presente fisicamente na indústria — isso é vantagem real, não só de marketing.",
+ dev:"Carrossel de posicionamento mostrando por que ter o fundador em eventos como a Canton Fair (não só um time de operações) muda a percepção de confiança e acesso à indústria.",
+ cta:"Segue pra acompanhar de perto a próxima ida à fábrica."},
+
+{id:"p20",date:"26/09",wd:"Sáb",week:"Semana 3",fmt:"Reel",funnel:"fundo",
+ title:"Objeção — receio de errar na documentação/processo",
+ obj:"Neutralizar objeção de conhecimento/burocracia com especificidade técnica.",
+ hook:"O processo de importação tem tanta etapa que dá medo de errar em alguma — e é exatamente aí que gerenciamento profissional faz diferença.",
+ dev:"Reel Formato C detalhando os pontos de documentação mais comumente errados por quem importa sozinho pela primeira vez — classificação fiscal, invoice, packing list — e como isso é acompanhado de perto na metodologia.",
+ cta:"Comenta 'documentação' que a gente manda um resumo do que é essencial checar."},
+
+{id:"p21",date:"27/09",wd:"Dom",week:"Semana 3",fmt:"Reel",funnel:"topo",
+ title:"Quanto tempo realmente leva uma importação, do pedido à porta",
+ obj:"Utilidade prática e transparência de prazo — planejamento honesto, não promessa de velocidade.",
+ hook:"Do pedido até a mercadoria na sua porta: quanto tempo isso leva de verdade? A resposta surpreende até quem já importa.",
+ dev:"Reel com linha do tempo real — produção, inspeção, transporte, desembaraço — mostrando prazos honestos por etapa, pra ajudar o empresário a planejar estoque e fluxo de caixa com expectativa correta.",
+ cta:"Comenta se o prazo que você imaginava bateu com o real."},
+
+{id:"p22",date:"28/09",wd:"Seg",week:"Semana 4",fmt:"Carrossel",funnel:"topo",
+ title:"5 perguntas que todo empresário faz antes de importar",
+ obj:"Cobrir objeções amplas em formato rápido, pra quem ainda está na fase de curiosidade.",
+ hook:"As 5 perguntas que todo empresário faz antes de importar da China — respondidas direto, sem enrolação.",
+ dev:"Carrossel em formato pergunta-resposta cobrindo dúvidas recorrentes de quem nunca importou: valor mínimo pra começar, prazo, risco, documentação, e se compensa pro tamanho da empresa dele.",
+ cta:"Comenta a pergunta que ainda não foi respondida aqui."},
+
+{id:"p23",date:"29/09",wd:"Ter",week:"Semana 4",fmt:"Reel",funnel:"meio",
+ title:"Como funciona o desembaraço aduaneiro sem virar pesadelo",
+ obj:"Desmistificar a etapa que mais assusta, aumentando a percepção de mecanismo seguro.",
+ hook:"Desembaraço aduaneiro é a parte que mais assusta quem nunca importou — e a que menos precisa assustar quando alguém acompanha o processo.",
+ dev:"Reel desmistificando as etapas do desembaraço — documentação, classificação fiscal, conferência, liberação — mostrando onde o processo trava sem acompanhamento e onde ele flui com alguém acompanhando.",
+ cta:"Comenta 'desembaraço' que a gente detalha o processo pro seu tipo de produto."},
+
+{id:"p24",date:"30/09",wd:"Qua",week:"Semana 4",fmt:"Reel",funnel:"meio",
+ title:"Vantagem oculta: personalização de produto que só dá pra fazer importando direto",
+ obj:"Ampliar o desejo além do custo — diferenciação de produto e marca própria.",
+ hook:"Tem uma vantagem de importar direto que quase ninguém menciona — e não é preço.",
+ dev:"Reel sobre a possibilidade de desenvolver produto exclusivo (embalagem, especificação técnica, marca própria) negociando direto com a fábrica — impossível quando se compra de um distribuidor que já revende produto padrão.",
+ cta:"Comenta se sua empresa já pensou em ter um produto exclusivo."},
+
+{id:"p25",date:"01/10",wd:"Qui",week:"Semana 4",fmt:"Reel",funnel:"fundo",
+ title:"Prova social direta: depoimento com número real",
+ obj:"Fechar o ciclo de objeções do mês com evidência concreta em vez de argumento.",
+ hook:"Isso não é discurso — é o resultado real de um cliente que decidiu importar com gestão.",
+ dev:"Reel de prova social direta (depoimento gravado ou lido, com número real de economia/prazo sempre que disponível), consolidando os argumentos do mês em evidência concreta.",
+ cta:"Comenta se você quer uma avaliação parecida pro seu caso."},
+
+{id:"p26",date:"02/10",wd:"Sex",week:"Semana 4",fmt:"Carrossel",funnel:"meio",
+ title:"Prova social: cliente real, resultado real",
+ obj:"Consolidar prova social do mês em formato compartilhável.",
+ hook:"Prova é melhor que promessa — esse é um resultado real de um cliente que decidiu importar direto.",
+ dev:"Carrossel de case consolidado (fechamento de mês) reunindo depoimento e, quando disponível, número real de economia de custo/prazo — hoje o ponto mais fraco de prova social frente à concorrência direta (ver Concorrência).",
+ cta:"Comenta se você quer ver um diagnóstico parecido pro seu caso."},
+
+{id:"p27",date:"03/10",wd:"Sáb",week:"Semana 4",fmt:"Reel",funnel:"fundo",
+ title:"Oferta: diagnóstico gratuito de viabilidade de importação",
+ obj:"CTA direto de baixo risco — primeiro passo concreto pra quem acompanhou o mês de conteúdo.",
+ hook:"Antes de importar, dá pra saber se compensa pro seu caso — sem custo e sem compromisso.",
+ dev:"Reel de oferta direta apresentando o diagnóstico gratuito de viabilidade (categoria de produto, volume, margem atual) como primeiro passo de baixo risco pra quem chegou até aqui na jornada de conteúdo do mês.",
+ cta:"Comenta 'diagnóstico' ou manda mensagem direto pra agendar o seu."},
+
+{id:"p28",date:"04/10",wd:"Dom",week:"Semana 4",fmt:"Reel",funnel:"topo",
+ title:"Tendência: 'made in China' virou 'designed with China'",
+ obj:"Elevar a percepção de categoria — de custo pra estratégia — atraindo empresas mais sofisticadas.",
+ hook:"'Made in China' era sobre custo. 'Designed with China' é sobre estratégia — e é isso que separa quem cresce de quem só revende.",
+ dev:"Reel de tendência mostrando a virada de empresas que passaram de comprar produto pronto pra desenvolver produto exclusivo em parceria com a fábrica — diferenciação e marca própria, não só custo menor.",
+ cta:"Comenta se sua empresa já pensa em produto exclusivo ou ainda só revende o que existe."},
+
+{id:"p29",date:"05/10",wd:"Seg",week:"Semana 5",fmt:"Carrossel",funnel:"topo",
+ title:"O mapa mental de quem decide importar: do zero até a 1ª carga",
+ obj:"Sintetizar o mês inteiro em uma peça de referência, pensada pra ser salva.",
+ hook:"Esse é o mapa mental completo de quem decide importar da China — do primeiro pensamento até a primeira carga na porta.",
+ dev:"Carrossel-resumo conectando os temas do mês num fluxo único: decisão → categoria → sourcing → negociação → gerenciamento → desembaraço → primeira carga.",
+ cta:"Salva esse carrossel — ele resume tudo o que você precisa saber antes de começar."},
+
+{id:"p30",date:"06/10",wd:"Ter",week:"Semana 5",fmt:"Reel",funnel:"meio",
+ title:"Fechamento do mês: recap + prova social + CTA de diagnóstico",
+ obj:"Fechar o ciclo, reforçar prova social acumulada e preparar a virada pra outubro/Canton Fair.",
+ hook:"Foi um mês inteiro de conteúdo sobre importar da China — esse é o resumo de tudo que interessa pra você.",
+ dev:"Reel de fechamento de ciclo recapitulando os temas do mês (reforma tributária, categorias de produto, metodologia, casos), reforçando prova social acumulada e preparando a virada pra outubro/Canton Fair.",
+ cta:"Comenta 'diagnóstico' que a gente avalia se faz sentido pro seu caso agora."}
+];
+
+// ---- Stories ------------------------------------------------
+const STORIES = [
+{id:"s01",funnel:"topo",title:"Enquete: 'você já pensou em importar da China?'",
+ rhythm:"1x/semana, início de semana", frames:"1 quadro — sticker de enquete Sim / Já importo / Nunca pensei",
+ hook:"Enquete rápida pra medir temperatura da audiência e alimentar comentários com contexto real.",
+ dev:"Sticker de enquete simples, resultado comentado no story seguinte — serve de termômetro de awareness da audiência e gera dado pra segmentar próximos conteúdos.",
+ cta:"Resultado no story seguinte, com convite a comentar o motivo da resposta."},
+
+{id:"s02",funnel:"topo",title:"Caixa de perguntas: 'manda sua dúvida sobre importar'",
+ rhythm:"1x/semana", frames:"1-2 quadros — sticker de pergunta aberta",
+ hook:"Fonte direta de conteúdo pro Formato C (FAQ/objeção nomeada) — a caixa de perguntas alimenta o roteiro do próximo Reel de objeção.",
+ dev:"Convite aberto pra dúvidas reais, respondidas em destaque fixo ou viradas em Reel de Formato C na semana seguinte — fecha o ciclo entre pergunta real da audiência e o conteúdo de maior conversão da conta.",
+ cta:"'Manda sua dúvida — a gente responde aqui ou no próximo vídeo.'"},
+
+{id:"s03",funnel:"meio",title:"Bastidor rápido: foto real de operação/fábrica",
+ rhythm:"3-4x/semana, como apoio ao feed", frames:"1 quadro — foto + legenda curta",
+ hook:"Prova de bastidor consistente, sem produção — mantém a sensação de acesso real à indústria entre os posts principais.",
+ dev:"Foto do dia a dia (contêiner, amostra, reunião, produto em produção) com legenda de uma linha — mantém frequência de stories sem exigir produção de vídeo.",
+ cta:"Sticker de link ou menção ao Reel do dia, quando houver."},
+
+{id:"s04",funnel:"meio",title:"Quiz: 'você sabe quanto tempo leva uma importação?'",
+ rhythm:"1x/semana", frames:"1 quadro — sticker de quiz múltipla escolha",
+ hook:"Formato interativo que reforça o tema de prazo (mesmo ângulo do Reel 'quanto tempo leva') com engajamento leve.",
+ dev:"Quiz de múltipla escolha com 3-4 opções de prazo, resposta revelada no story seguinte — reforça mensagem de mecanismo/transparência sem repetir o Reel na íntegra.",
+ cta:"Resposta certa revelada no story seguinte, com link pro Reel completo."},
+
+{id:"s05",funnel:"fundo",title:"Contagem regressiva: dias pra Canton Fair",
+ rhythm:"diário durante a contagem regressiva (a partir de 2 semanas antes)", frames:"1 quadro — sticker de contagem regressiva nativo",
+ hook:"Cria expectativa e urgência real em torno de um evento com data marcada — mecanismo de escassez legítimo, não artificial.",
+ dev:"Sticker de contagem regressiva nativo do Instagram apontando pro início da cobertura ao vivo da Canton Fair, reforçando que a cobertura em Reels vem em seguida.",
+ cta:"'Ativa o lembrete — a cobertura ao vivo começa aqui.'"},
+
+{id:"s06",funnel:"fundo",title:"Depoimento em card: print de mensagem real de cliente",
+ rhythm:"sempre que houver depoimento novo (com autorização)", frames:"1 quadro — print de mensagem + moldura",
+ hook:"Prova social direta e de baixo custo de produção — usa o que já existe (mensagem real do cliente) em vez de depender de gravação.",
+ dev:"Print de mensagem real (com autorização explícita do cliente), emoldurado com identidade visual simples — reforça prova social entre os Reels de case do mês.",
+ cta:"Link pro diagnóstico gratuito ou menção ao Reel de prova social relacionado."},
+
+{id:"s07",funnel:"topo",title:"Repost do Reel do dia com sticker de reação",
+ rhythm:"sempre que publicar um Reel", frames:"1 quadro — repost + sticker de reação/pergunta",
+ hook:"Amplificação de baixo esforço do conteúdo principal do dia, sem produção nova.",
+ dev:"Repost automático do Reel publicado no feed, com sticker de reação ou pergunta relacionada ao tema — aumenta alcance do Reel do dia sem exigir peça nova.",
+ cta:"Sticker de reação (emoji slider) relacionado ao tema do Reel."},
+
+{id:"s08",funnel:"fundo",title:"Link direto: agendar diagnóstico gratuito",
+ rhythm:"2x/semana, dias alternados dos Reels de oferta/objeção", frames:"1 quadro — sticker de link",
+ hook:"CTA de conversão direta, sem depender de comentário — reduz fricção pra quem já está pronto pra agir.",
+ dev:"Sticker de link direto para agendamento do diagnóstico gratuito de viabilidade, usado em dias sem Reel novo pra manter o canal de conversão sempre aberto.",
+ cta:"'Agenda seu diagnóstico gratuito — sem custo, sem compromisso.'"}
+];
+
+// ---- Quarterly recovery data (Camada 9, Achado 1 — medianas por post) ----
+const QUARTERS = ["25-Q1","25-Q2","25-Q3","25-Q4","26-Q1","26-Q2","26-Q3"];
+const Q_REELS   = [383,  null, 281, 414, 456, 420, 479];
+const Q_CARR    = [137,  null, 81,  87,  180, 185, 269];
+const Q_IMG     = [119,  null, 68,  90,  176, 173, 250];
+// nota: 25-Q2 sem quebra trimestral isolada nos dados brutos — trend usa Q1->Q3 como referência de queda
+
+// ---- Monthly cadence + monthly account reach (Camada 9) ----
+const MONTHS = ["jan/25","fev/25","mar/25","abr/25","mai/25","jun/25","jul/25","ago/25","set/25","out/25","nov/25","dez/25","jan/26","fev/26","mar/26","abr/26","mai/26","jun/26","jul/26","ago/26"];
+const CADENCE = [10,10,12,10,10,12,16,18,16,13,15,27,22,21,19,24,21,25,23,15];
+const REACH_M = [46,49,74,67,83,149,76,84,99,64,95,344,364,375,626,368,291,571,900,687]; // em milhares
+
+// ---- Format averages (janela completa onde disponível — Reels Camada 9; Carrossel/Imagem Camada 4) ----
+const FORMATS = [
+  {label:"Reels", n:179, reach:513, views:814, eng:"6,4%", extra:"skip 65,8%", color:"var(--accent)"},
+  {label:"Carrossel", n:111, reach:228, views:490, eng:"5,8%", extra:"—", color:"var(--violet)"},
+  {label:"Imagem única", n:52, reach:198, views:348, eng:"2,7%", extra:"formato mais fraco", color:"var(--text-dim)"}
+];
+
+// ---- Pulso ao vivo — atualizado automaticamente via GitHub Actions (Windsor.ai + Anthropic) ----
+// Este bloco (e os arrays REACH_30D / RECENT_POSTS logo abaixo) é reescrito pelo script
+// scripts/update-pulse.mjs a cada execução agendada. Não edite os valores manualmente aqui
+// se a automação estiver ativa — a próxima rodada vai sobrescrever.
+// PULSE_START
+const PULSE = {
+  fetchedAt: "16/09/2026",
+  followers: 9436,
+  mediaCount: 383,
+  accountReach30dAvg: 23425, // média de alcance diário de conta (misto), últ. 30 dias
+  newFollowersDayAvg: 66,    // média de novos seguidores/dia, últ. 30 dias
+  reachReelSet: 292,         // média de alcance dos Reels na janela mais recente (~14 dias)
+  // Textos curtos escritos pela Anthropic a cada atualização, a partir dos números acima
+  // e da leitura anterior — mantêm o tom analítico do relatório original.
+  followersDeltaText: "+54 desde 07/09",
+  mediaDeltaText: "1 nova desde a última leitura (382 → 383)",
+  accountReach30dNote: "Média dos últ. 30 dias · picos de 29k em meados de agosto, ~18–21k agora",
+  reachReelLabel: "Alcance médio/Reel · período atual",
+  reachReelSetNote: "vs. 394 na janela anterior (-26%) — amostra ainda curta (6 posts), acompanhar antes de concluir",
+  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (16/09):</b> o alcance médio por Reel na janela mais recente está em 292 (6 posts, 01–14/09) — variação pequena frente à leitura anterior (15/09: 280, mesma amostra de 6 posts). A queda frente à janela anterior ficou em -26%, na mesma faixa das duas leituras anteriores (-27% e -22%). <b>DADO</b> confirmado pela API. <b>HIPÓTESE</b> de queda estrutural segue sem confirmação: as últimas três leituras oscilam entre -22% e -27%, uma faixa estreita que tanto pode indicar um patamar mais baixo persistente quanto apenas o ruído esperado de uma amostra pequena (6 Reels/mês) — ainda não dá pra distinguir as duas coisas com confiança. Ação recomendada: manter o Plano 30 dias rodando sem mudança e reavaliar quando a amostra passar de 10 Reels."
+};
+// PULSE_END
+// alcance diário de conta (misto) — últimos 30 dias, direto da API
+// REACH_30D_START
+const REACH_30D = [
+{d:"17/08",v:26310},{d:"18/08",v:26201},{d:"19/08",v:26603},{d:"20/08",v:27131},{d:"21/08",v:23843},
+{d:"22/08",v:17646},{d:"23/08",v:21910},{d:"24/08",v:26603},{d:"25/08",v:23324},{d:"26/08",v:23516},
+{d:"27/08",v:25642},{d:"28/08",v:21784},{d:"29/08",v:25408},{d:"30/08",v:28577},{d:"31/08",v:24728},
+{d:"01/09",v:19966},{d:"02/09",v:19659},{d:"03/09",v:15593},{d:"04/09",v:19818},{d:"05/09",v:18796},
+{d:"06/09",v:20017},{d:"07/09",v:20674},{d:"08/09",v:17767},{d:"09/09",v:21092},{d:"10/09",v:18350},
+{d:"11/09",v:20987},{d:"12/09",v:21093},{d:"13/09",v:49745},{d:"14/09",v:23513},{d:"15/09",v:26465}
+];
+// REACH_30D_END
+// Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
+// RECENT_POSTS_START
+const RECENT_POSTS = [
+{d:"13/08",t:"Carrossel",reach:306},{d:"14/08",t:"Reel",reach:470},{d:"15/08",t:"Carrossel",reach:283},
+{d:"17/08",t:"Reel",reach:402},{d:"18/08",t:"Carrossel",reach:177},{d:"19/08",t:"Reel",reach:273},
+{d:"20/08",t:"Reel",reach:475},{d:"20/08",t:"Carrossel",reach:211},{d:"21/08",t:"Reel",reach:369},
+{d:"24/08",t:"Reel",reach:377},{d:"25/08",t:"Carrossel",reach:215},{d:"01/09",t:"Reel",reach:305},
+{d:"04/09",t:"Carrossel",reach:193},{d:"07/09",t:"Reel",reach:143},{d:"09/09",t:"Reel",reach:310},
+{d:"10/09",t:"Reel",reach:453},{d:"11/09",t:"Reel",reach:368},{d:"14/09",t:"Reel",reach:170},
+{d:"15/09",t:"Carrossel",reach:86}
+];
+// RECENT_POSTS_END
+
+const DEMO = [
+  {label:"35–54 anos", pct:71.1}, {label:"Masculino", pct:62.8}, {label:"Brasil", pct:99.3}
+];
+const CITIES = ["São Paulo 6,5%","Rio de Janeiro 2,8%","Santos","Goiânia","Belo Horizonte","Manaus","Fortaleza","Salvador","Curitiba"];
+
+const COMPETITORS = [
+ {name:"Jornada 4S", self:true, badge:"Nossa marca",
+  posic:"Metodologia em 4 fases (Sourcing → Gerenciamento → Follow Up → Desembaraço). Fundador visível liderando eventos presenciais (Giuliano Rédua, P90, Canton Fair).",
+  prova:"4 depoimentos nomeados, ainda sem métrica quantificada — ponto mais fraco frente aos dois concorrentes abaixo.",
+  oport:"Nenhum concorrente constrói marca em torno de um fundador presente fisicamente na indústria — espaço real de diferenciação a explorar."},
+ {name:"FEIHONG", badge:"Concorrente direto de posicionamento",
+  posic:"Mesmo ICP da 4S, foco em resultado numérico de operação.",
+  prova:"+18 anos de mercado, +300 operações, cases com número duro: -34% a -41% de custo, ciclo reduzido de 90 para 45 dias.",
+  oport:"Prova social forte é a principal ameaça competitiva — reforça a urgência de quantificar cases da 4S."},
+ {name:"China Gate", badge:"Concorrente de ICP mais amplo",
+  posic:"Escala e volume, ICP menos qualificado que o da 4S.",
+  prova:"+13 mil importações realizadas, +4 mil empresas atendidas, garantia de 30 dias.",
+  oport:"Compete por volume, não por transformação de margem — a 4S pode se diferenciar mirando empresas maiores (R$5M+) e ganho de margem, não só acesso."}
+];
+</script>
+<script>
+/* ============================================================
+   RENDER — Desempenho
+   ============================================================ */
+function fmtK(v){ return v>=1000 ? (v/1000).toFixed(v>=10000?0:1).replace(".",",")+"k" : v; }
+
+function renderDesempenho(){
+  const el = document.getElementById("view-desempenho");
+  const goalPct = Math.min(100, Math.round(513/1150*100));
+  const meta90Val = 615, meta90Pct = Math.min(100, Math.round(meta90Val/1150*100));
+  el.innerHTML = `
+  <div class="section-head">
+    <div><span class="eyebrow">Pulso ao vivo · Windsor.ai/Instagram, ${PULSE.fetchedAt}</span><h2>Onde a conta está agora</h2>
+    <p>Últimos 30–35 dias, puxado direto da API na hora deste acesso — camada mais recente sobre o diagnóstico histórico abaixo.</p></div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi" style="--kpi-c:var(--cyan)">
+      <div class="lbl">Seguidores <span class="tag-pill tag-cyan" style="margin-left:4px;">ao vivo</span></div>
+      <div class="val tabular">${PULSE.followers.toLocaleString("pt-BR")}</div>
+      <div class="delta up">${PULSE.followersDeltaText} · média de +${PULSE.newFollowersDayAvg}/dia (últ. 30 dias)</div>
+    </div>
+    <div class="kpi" style="--kpi-c:var(--accent)">
+      <div class="lbl">Alcance diário de conta <span class="tag-pill tag-misto" style="margin-left:4px;">misto</span></div>
+      <div class="val tabular">${fmtK(PULSE.accountReach30dAvg)}<small>/dia</small></div>
+      <div class="delta">${PULSE.accountReach30dNote}</div>
+    </div>
+    <div class="kpi" style="--kpi-c:var(--pink)">
+      <div class="lbl">${PULSE.reachReelLabel} <span class="tag-pill tag-pink" style="margin-left:4px;">dado novo</span></div>
+      <div class="val tabular">${PULSE.reachReelSet}</div>
+      <div class="delta warn">${PULSE.reachReelSetNote}</div>
+    </div>
+    <div class="kpi" style="--kpi-c:var(--gold)">
+      <div class="lbl">Mídias publicadas <span class="tag-pill tag-gold" style="margin-left:4px;">ao vivo</span></div>
+      <div class="val tabular">${PULSE.mediaCount}</div>
+      <div class="delta">No perfil, total histórico — ${PULSE.mediaDeltaText}</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-bottom:16px; border-left-color:var(--pink); background:var(--pink-soft);">
+    ${PULSE.achadoHtml}
+  </div>
+
+  <div class="card chart-card" style="margin-bottom:22px;">
+    <h3>Alcance diário de conta — últimos 30 dias <span class="tag-pill tag-misto">misto</span></h3>
+    <div class="sub">Dado direto da API, dia a dia — a queda de 09/03 (15,6k) é o ponto mais baixo do período</div>
+    <svg id="chartPulse30" viewBox="0 0 900 180" style="width:100%; height:auto;"></svg>
+  </div>
+
+  <div class="section-head">
+    <div><span class="eyebrow">Camada 9 · histórico completo, 21 meses</span><h2>A conta em recuperação real</h2>
+    <p>27/12/2024 a 06/09/2026 · 342 posts analisados · dado direto da API (Windsor.ai/Meta), não estimativa.</p></div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi" style="--kpi-c:var(--accent)">
+      <div class="lbl">Norte · alcance médio / Reel <span class="tag-pill tag-organico" style="margin-left:4px;">orgânico</span></div>
+      <div class="val tabular">513 <small>→ meta 1.100–1.200</small></div>
+      <div class="goal-bar"><i style="width:${goalPct}%"></i><span style="left:${goalPct}%"></span><b class="goal-90" style="left:${meta90Pct}%" title="Meta 90 dias: ${meta90Val} (+20%) até 10/12/2026"></b></div>
+      <div class="delta">179 Reels no histórico completo · ${goalPct}% do caminho até a meta · <span style="color:var(--gold); font-weight:600;">meta 90d (10/12): ${meta90Val} (+20%)</span> · meta longo prazo: 1.100–1.200</div>
+    </div>
+    <div class="kpi" style="--kpi-c:var(--pink)">
+      <div class="lbl">Taxa de skip média <span class="tag-pill tag-organico" style="margin-left:4px;">orgânico</span></div>
+      <div class="val tabular">65,8%</div>
+      <div class="delta">Correlação skip × alcance: <b class="tabular">-0,277</b> (moderada — retenção pesa mais do que se pensava)</div>
+    </div>
+    <div class="kpi" style="--kpi-c:var(--violet)">
+      <div class="lbl">Total de mídias <span class="tag-pill tag-misto" style="margin-left:4px;">misto</span></div>
+      <div class="val tabular">380</div>
+      <div class="delta">Histórico completo do perfil, desde a criação da conta</div>
+    </div>
+    <div class="kpi" style="--kpi-c:var(--warn)">
+      <div class="lbl">Dependência de mídia paga <span class="tag-pill tag-misto" style="margin-left:4px;">misto</span></div>
+      <div class="val tabular">~55–70%</div>
+      <div class="delta warn">Indicador a reduzir (Camada 6) — não é mais recomendação de mídia paga, só medição.</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-bottom:22px;">
+    <b>Achado central (Camada 9):</b> todos os formatos caíram entre o 1º e o 3º tri/2025 (pior trimestre da história da conta) e recuperam trimestre a trimestre desde então — alcance mediano por post está hoje no ponto mais alto de toda a história rastreável, nos três formatos ao mesmo tempo. A recuperação já estava em curso antes de qualquer ação deste diagnóstico; o salto de alcance de conta (nível misto) é maior ainda, mas ~55–70% dele é mídia paga rodando quase continuamente desde meados de 2025.
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="card chart-card">
+      <h3>Recuperação trimestral por formato <span class="tag-pill tag-organico">orgânico</span></h3>
+      <div class="sub">Alcance mediano por post, por trimestre — o pior trimestre foi 25-Q3, em todos os formatos</div>
+      <svg id="chartQuarters" viewBox="0 0 620 220" style="width:100%; height:auto;"></svg>
+      <div class="legend">
+        <span><i style="background:var(--accent)"></i>Reels</span>
+        <span><i style="background:var(--violet)"></i>Carrossel</span>
+        <span><i style="background:var(--text-dim)"></i>Imagem</span>
+      </div>
+    </div>
+    <div class="card chart-card">
+      <h3>Cadência mensal <span class="tag-pill tag-organico">orgânico</span></h3>
+      <div class="sub">Posts publicados por mês — já subia antes da reallocação do calendário</div>
+      <svg id="chartCadence" viewBox="0 0 320 220" style="width:100%; height:auto;"></svg>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="card chart-card">
+      <h3>Alcance de conta por mês <span class="tag-pill tag-misto">misto</span></h3>
+      <div class="sub">Soma mensal de alcance diário da conta, em milhares — salto de ~8-10x que a cadência (que só dobrou) não explica sozinha</div>
+      <svg id="chartReach" viewBox="0 0 620 200" style="width:100%; height:auto;"></svg>
+    </div>
+    <div class="card" style="padding:18px 20px;">
+      <h3 style="font-size:13px; margin-bottom:2px;">Desempenho médio por formato</h3>
+      <div class="sub" style="margin-bottom:10px;">Reels: histórico completo (21 meses) · Carrossel/Imagem: janela de 6 meses (Camada 4)</div>
+      <table>
+        <tr><th>Formato</th><th>n</th><th>Alcance médio</th><th>Views médio</th><th>Engajamento</th></tr>
+        ${FORMATS.map(f=>`<tr><td><b>${f.label}</b></td><td class="tabular">${f.n}</td><td class="tabular" style="color:${f.color}">${f.reach}</td><td class="tabular">${f.views}</td><td class="tabular">${f.eng}</td></tr>`).join("")}
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="padding:18px 20px;">
+    <h3 style="font-size:13px; margin-bottom:10px;">Público real (demografia) <span class="tag-pill tag-misto">misto</span></h3>
+    <div style="display:flex; gap:26px; flex-wrap:wrap; margin-bottom:14px;">
+      ${DEMO.map(d=>`
+        <div style="min-width:150px;">
+          <div style="font-size:11.5px; color:var(--text-muted); margin-bottom:5px;">${d.label}</div>
+          <div style="height:7px; border-radius:4px; background:var(--surface-2); overflow:hidden;">
+            <div style="height:100%; width:${d.pct}%; background:var(--accent); border-radius:4px;"></div>
+          </div>
+          <div class="tabular" style="font-size:12.5px; font-weight:600; margin-top:4px;">${d.pct}%</div>
+        </div>`).join("")}
+    </div>
+    <div style="font-size:11.5px; color:var(--text-dim);">Polos concentrados: ${CITIES.join(" · ")} — forte correspondência com o ICP declarado.</div>
+  </div>
+  `;
+  drawPulse30(); drawQuarters(); drawCadence(); drawReach();
+}
+
+function drawPulse30(){
+  const svg = document.getElementById("chartPulse30"); if(!svg) return;
+  const W=900,H=180,padL=44,padR=14,padT=14,padB=26;
+  const vals = REACH_30D.map(r=>r.v);
+  const max = Math.max(...vals)*1.1, min = Math.min(...vals)*0.9;
+  const xs=(i)=> padL + i*((W-padL-padR)/(REACH_30D.length-1));
+  const ys=(v)=> H-padB - ((v-min)/(max-min))*(H-padT-padB);
+  let area = `M${xs(0)},${H-padB} `;
+  REACH_30D.forEach((r,i)=>{ area += `L${xs(i)},${ys(r.v)} `; });
+  area += `L${xs(REACH_30D.length-1)},${H-padB} Z`;
+  let line = "";
+  REACH_30D.forEach((r,i)=>{ line += (i===0?"M":"L")+xs(i)+","+ys(r.v)+" "; });
+  let s = `<defs><linearGradient id="pulseFill" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+  </linearGradient></defs>`;
+  s += `<line class="axis-line" x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}"/>`;
+  [0,0.5,1].forEach(f=>{ const y=H-padB-f*(H-padT-padB); const val=Math.round(min+f*(max-min));
+    s += `<line class="axis-line" x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}" stroke-dasharray="2,3"/><text x="${padL-8}" y="${y+3}" font-size="9" text-anchor="end">${fmtK(val)}</text>`; });
+  REACH_30D.forEach((r,i)=>{ if(i%4===0) s+=`<text x="${xs(i)}" y="${H-8}" font-size="8.5" text-anchor="middle">${r.d}</text>`; });
+  s += `<path d="${area}" fill="url(#pulseFill)"/>`;
+  s += `<path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.2"/>`;
+  const lastI = REACH_30D.length-1;
+  s += `<circle cx="${xs(lastI)}" cy="${ys(REACH_30D[lastI].v)}" r="4" fill="var(--accent)" stroke="var(--bg)" stroke-width="2"/>`;
+  svg.innerHTML = s;
+}
+
+function drawQuarters(){
+  const svg = document.getElementById("chartQuarters"); if(!svg) return;
+  const W=620,H=220,padL=34,padR=22,padT=14,padB=26;
+  const all=[...Q_REELS,...Q_CARR,...Q_IMG].filter(v=>v!=null);
+  const max=Math.max(...all)*1.12;
+  const xs=(i)=> padL + i*((W-padL-padR)/(QUARTERS.length-1));
+  const ys=(v)=> H-padB - (v/max)*(H-padT-padB);
+  function path(arr){
+    let d=""; let started=false;
+    arr.forEach((v,i)=>{ if(v==null) return; const x=xs(i),y=ys(v); d += (started? "L":"M")+x+","+y+" "; started=true; });
+    return d;
+  }
+  let s = `<line class="axis-line" x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}"/>`;
+  QUARTERS.forEach((q,i)=>{ s+=`<text x="${xs(i)}" y="${H-8}" font-size="9.5" text-anchor="middle">${q}</text>`; });
+  [0,0.5,1].forEach(f=>{ const y=H-padB-f*(H-padT-padB); s+=`<line class="axis-line" x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}" stroke-dasharray="2,3"/><text x="${padL-6}" y="${y+3}" font-size="9" text-anchor="end">${Math.round(f*max)}</text>`; });
+  function series(arr,color){
+    let out = `<path d="${path(arr)}" fill="none" stroke="${color}" stroke-width="2.2"/>`;
+    arr.forEach((v,i)=>{ if(v==null) return; out+=`<circle cx="${xs(i)}" cy="${ys(v)}" r="3" fill="${color}"/>`; });
+    return out;
+  }
+  s += series(Q_REELS,"var(--accent)");
+  s += series(Q_CARR,"var(--violet)");
+  s += series(Q_IMG,"var(--text-dim)");
+  const worstI = 2;
+  s += `<rect x="${xs(worstI)-16}" y="${padT}" width="32" height="${H-padT-padB}" fill="var(--fundo)" opacity="0.08"/>`;
+  s += `<text x="${xs(worstI)}" y="${padT+10}" font-size="9" text-anchor="middle" fill="var(--fundo)">pior tri.</text>`;
+  svg.innerHTML = s;
+}
+
+function drawCadence(){
+  const svg = document.getElementById("chartCadence"); if(!svg) return;
+  const W=320,H=220,padL=22,padR=6,padT=10,padB=22;
+  const max = Math.max(...CADENCE)*1.15;
+  const bw = (W-padL-padR)/CADENCE.length;
+  let s = `<line class="axis-line" x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}"/>`;
+  CADENCE.forEach((v,i)=>{
+    const h=(v/max)*(H-padT-padB); const x=padL+i*bw+1; const y=H-padB-h;
+    const c = i>=12 ? "var(--accent)" : "var(--border)";
+    s += `<rect x="${x}" y="${y}" width="${bw-2}" height="${h}" fill="${c}" rx="1.5"/>`;
+    if(i%3===0) s += `<text x="${x+bw/2}" y="${H-8}" font-size="8" text-anchor="middle">${MONTHS[i].slice(0,3)}</text>`;
+  });
+  s += `<text x="${W-padR}" y="${padT+4}" font-size="8.5" text-anchor="end" fill="var(--text-dim)">posts/mês</text>`;
+  svg.innerHTML = s;
+}
+
+function drawReach(){
+  const svg = document.getElementById("chartReach"); if(!svg) return;
+  const W=620,H=200,padL=30,padR=10,padT=14,padB=24;
+  const max = Math.max(...REACH_M)*1.1;
+  const bw = (W-padL-padR)/REACH_M.length;
+  let s = `<line class="axis-line" x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}"/>`;
+  REACH_M.forEach((v,i)=>{
+    const h=(v/max)*(H-padT-padB); const x=padL+i*bw+1; const y=H-padB-h;
+    const paid = i>=11; // dez/25 em diante = fase de mídia paga contínua
+    s += `<rect x="${x}" y="${y}" width="${bw-2}" height="${h}" fill="${paid?'var(--violet)':'var(--topo)'}" rx="1.5" opacity="0.9"/>`;
+    if(i%3===0) s += `<text x="${x+bw/2}" y="${H-8}" font-size="8" text-anchor="middle">${MONTHS[i].slice(0,3)}</text>`;
+  });
+  svg.innerHTML = s;
+}
+
+/* ============================================================
+   RENDER — Plano 30 dias
+   ============================================================ */
+let planFilter = {funnel:"all", fmt:"all"};
+
+function renderPlano(){
+  const el = document.getElementById("view-plano");
+  const topoN = DAYS30.filter(d=>d.funnel==="topo").length;
+  const meioN = DAYS30.filter(d=>d.funnel==="meio").length;
+  const fundoN = DAYS30.filter(d=>d.funnel==="fundo").length;
+  const todayItem = DAYS30.find(d=>dayStatus(d)==="hoje");
+  const doneN = DAYS30.filter(d=>dayStatus(d)==="passado").length;
+  el.innerHTML = `
+  <div class="section-head">
+    <div><span class="eyebrow">07/09 → 06/10/2026</span><h2>Plano de 30 dias para crescimento previsível</h2>
+    <p>21 Reels + 9 Carrossel, distribuídos por estágio de funil na proporção voltada a expansão de alcance — não conversão isolada.</p></div>
+  </div>
+  ${todayItem ? `
+  <div class="callout" style="margin-bottom:14px; border-left-color:var(--good); background:var(--topo-soft);">
+    <b style="color:var(--good)">Hoje · dia ${DAYS30.indexOf(todayItem)+1} de 30 (${todayItem.wd}, ${todayItem.date})</b> — ${todayItem.fmt}, funil ${todayItem.funnel}: <b>${todayItem.title}</b>.
+    <button id="openTodayBtn" style="margin-left:8px; border:none; background:var(--text); color:var(--bg); padding:4px 11px; border-radius:999px; font-size:11px; font-weight:600; cursor:pointer;">Abrir roteiro</button>
+  </div>` : `
+  <div class="callout" style="margin-bottom:14px;">Hoje está fora da janela deste plano (07/09–06/10/2026).</div>`}
+  <div class="callout" style="margin-bottom:18px;">
+    <b>Proporção de funil:</b> topo ${topoN} (${Math.round(topoN/30*100)}%) · meio ${meioN} (${Math.round(meioN/30*100)}%) · fundo ${fundoN} (${Math.round(fundoN/30*100)}%). Mais peso em topo/meio do que o calendário anterior (focado em quebra de objeções) — o objetivo agora é expandir alcance e audiência nova; a alavanca de conversão (Formato C) segue presente todo dia útil, mas não domina o mix. Ver rationale completo em Orientações práticas.
+  </div>
+  <div class="plan-controls">
+    <div class="chip-row" id="chipsFunnel">
+      <button class="chip on" data-f="all">Todos</button>
+      <button class="chip" data-f="topo">Topo · ${topoN}</button>
+      <button class="chip" data-f="meio">Meio · ${meioN}</button>
+      <button class="chip" data-f="fundo">Fundo · ${fundoN}</button>
+    </div>
+    <div class="chip-row" id="chipsFmt">
+      <button class="chip on" data-fmt="all">Todos formatos</button>
+      <button class="chip" data-fmt="Reel">Reel</button>
+      <button class="chip" data-fmt="Carrossel">Carrossel</button>
+    </div>
+    <div class="plan-meta">${doneN}/30 dias já passaram · clique num card pra abrir o roteiro completo</div>
+  </div>
+  <div id="planDays"></div>
+  `;
+  if(todayItem){ const btn = document.getElementById("openTodayBtn"); if(btn) btn.onclick = ()=>openDetail(todayItem.id,"day"); }
+  el.querySelectorAll("#chipsFunnel .chip").forEach(b=>b.onclick=()=>{
+    el.querySelectorAll("#chipsFunnel .chip").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); planFilter.funnel=b.dataset.f; renderPlanDays();
+  });
+  el.querySelectorAll("#chipsFmt .chip").forEach(b=>b.onclick=()=>{
+    el.querySelectorAll("#chipsFmt .chip").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); planFilter.fmt=b.dataset.fmt; renderPlanDays();
+  });
+  renderPlanDays();
+}
+
+// plan runs entirely within 2026 (07/09–06/10/2026) — safe to hardcode the year for date compare
+function planDateObj(d){
+  const [dd,mm] = d.date.split("/").map(Number);
+  return new Date(2026, mm-1, dd);
+}
+function dayStatus(d){
+  const now = new Date();
+  const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const dMid = planDateObj(d);
+  if(dMid.getTime()===todayMid.getTime()) return "hoje";
+  return dMid.getTime()<todayMid.getTime() ? "passado" : "futuro";
+}
+
+function fmtIcon(fmt){
+  return fmt==="Reel"
+   ? `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>`
+   : `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="14" rx="2"/><rect x="8" y="4" width="14" height="14" rx="2"/></svg>`;
+}
+
+function renderPlanDays(){
+  const host = document.getElementById("planDays");
+  const weeks = [...new Set(DAYS30.map(d=>d.week))];
+  let html = "";
+  weeks.forEach(w=>{
+    const items = DAYS30.filter(d=>d.week===w)
+      .filter(d=> planFilter.funnel==="all" || d.funnel===planFilter.funnel)
+      .filter(d=> planFilter.fmt==="all" || d.fmt===planFilter.fmt);
+    if(!items.length) return;
+    html += `<div class="week-block"><div class="week-title">${w}</div><div class="day-grid">`;
+    items.forEach(d=>{
+      const st = dayStatus(d);
+      html += `<button class="day-card ${st==='hoje'?'is-today':''} ${st==='passado'?'is-past':''}" style="--dc:var(--${d.funnel})" data-id="${d.id}" data-type="day">
+        <div class="dc-top">
+          <span class="date">${d.wd} · ${d.date}${st==='hoje'?'<span class="today-pill">HOJE</span>':''}</span>
+          <span class="fmt">${fmtIcon(d.fmt)} ${d.fmt}</span>
+        </div>
+        <h4>${d.title}</h4>
+        <p class="hook-prev">${d.hook}</p>
+        <div class="dc-bot">
+          <span class="tag-pill tag-${d.funnel}">${d.funnel}</span>
+          <span class="note-dot" id="dot-${d.id}"></span>
+        </div>
+      </button>`;
+    });
+    html += `</div></div>`;
+  });
+  host.innerHTML = html || `<p style="color:var(--text-dim); font-size:13px;">Nenhum item nesse filtro.</p>`;
+  host.querySelectorAll(".day-card").forEach(c=>c.onclick=()=>openDetail(c.dataset.id,"day"));
+  DAYS30.forEach(d=>refreshDot(d.id));
+}
+
+/* ============================================================
+   RENDER — Stories
+   ============================================================ */
+function renderStories(){
+  const el = document.getElementById("view-stories");
+  el.innerHTML = `
+  <div class="section-head">
+    <div><span class="eyebrow">8 templates recorrentes</span><h2>Roteiros de Stories</h2>
+    <p>Complementam o feed com frequência diária, sem exigir produção nova todo dia — cada template tem um ritmo semanal sugerido.</p></div>
+  </div>
+  <div class="day-grid" id="storyGrid"></div>
+  `;
+  const host = document.getElementById("storyGrid");
+  host.innerHTML = STORIES.map(s=>`
+    <button class="day-card" style="--dc:var(--${s.funnel})" data-id="${s.id}" data-type="story">
+      <div class="dc-top"><span class="fmt">${s.frames.split(" — ")[0]}</span></div>
+      <h4>${s.title}</h4>
+      <p class="hook-prev">${s.rhythm}</p>
+      <div class="dc-bot">
+        <span class="tag-pill tag-${s.funnel}">${s.funnel}</span>
+        <span class="note-dot" id="dot-${s.id}"></span>
+      </div>
+    </button>`).join("");
+  host.querySelectorAll(".day-card").forEach(c=>c.onclick=()=>openDetail(c.dataset.id,"story"));
+  STORIES.forEach(s=>refreshDot(s.id));
+}
+
+/* ============================================================
+   RENDER — Concorrência
+   ============================================================ */
+function renderConcorrencia(){
+  const el = document.getElementById("view-concorrencia");
+  el.innerHTML = `
+  <div class="section-head">
+    <div><span class="eyebrow">Camada 2 do diagnóstico</span><h2>Como a 4S se posiciona frente ao mercado</h2>
+    <p>jornada4s.com.br, feihong.com.br, chinagate.com.br — mesma leitura usada no calendário editorial e no roteiro de bordo.</p></div>
+  </div>
+  <div class="comp-grid">
+    ${COMPETITORS.map(c=>`
+      <div class="comp-card card ${c.self?'self':''}">
+        <span class="badge">${c.badge}</span>
+        <h4>${c.name}</h4>
+        <p><b style="color:var(--text);">Posicionamento —</b> ${c.posic}</p>
+        <p><b style="color:var(--text);">Prova social —</b> ${c.prova}</p>
+        <p style="color:var(--accent);"><b>Oportunidade —</b> ${c.oport}</p>
+      </div>`).join("")}
+  </div>
+  <div class="card" style="padding:18px 20px;">
+    <h3 style="font-size:13px; margin-bottom:10px;">Prioridades competitivas (impacto × esforço)</h3>
+    <table>
+      <tr><th>Prioridade</th><th>Ação</th><th>Por quê</th></tr>
+      <tr><td><span class="tag-pill tag-fundo">P0</span></td><td>Cobertura da Canton Fair como motor de conteúdo</td><td>Território que nenhum concorrente ocupa — fundador presente fisicamente</td></tr>
+      <tr><td><span class="tag-pill tag-meio">P1</span></td><td>Substituir depoimentos genéricos por cases com número real</td><td>FEIHONG vence claramente nesse eixo (-34% a -41% custo, ciclo 90→45 dias)</td></tr>
+      <tr><td><span class="tag-pill tag-topo">P2</span></td><td>Mecanismo explícito de redução de risco na oferta</td><td>Objeção de golpe/fornecedor falso é a mais recorrente do ICP</td></tr>
+    </table>
+  </div>
+  `;
+}
+
+/* ============================================================
+   RENDER — Orientações práticas
+   ============================================================ */
+function renderOrientacoes(){
+  const el = document.getElementById("view-orientacoes");
+  el.innerHTML = `
+  <div class="section-head">
+    <div><span class="eyebrow">Regras de craft e mandato</span><h2>Orientações práticas</h2>
+    <p>O que vale a pena lembrar antes de gravar, editar ou publicar qualquer peça deste plano.</p></div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="card" style="padding:18px 20px;">
+      <h3 style="font-size:13.5px; margin-bottom:10px;">Por que essa proporção de funil</h3>
+      <p style="font-size:12.8px; color:var(--text-muted); line-height:1.6;">
+      O calendário anterior (Roteiro de Bordo) dobrou a frequência de Formato C — quebra de objeção — porque é o único formato com conversão de seguidor comprovada (Camada 3). Esse plano de 30 dias tem um objetivo diferente e complementar: <b style="color:var(--text)">crescimento e expansão da conta</b>, não só conversão de quem já está no radar. Por isso o mix aqui é mais pesado em topo (40%) e meio (33%) do que em fundo (27%) — gerar atenção nova e consideração antes de pedir decisão. As duas ferramentas trabalham juntas: esse plano traz gente nova pro topo, o Roteiro de Bordo converte quem já chegou.</p>
+    </div>
+    <div class="card" style="padding:18px 20px;">
+      <h3 style="font-size:13.5px; margin-bottom:10px;">A regra de craft que mudou (Camada 9)</h3>
+      <p style="font-size:12.8px; color:var(--text-muted); line-height:1.6;">
+      Com o histórico completo (179 Reels, 21 meses), a correlação entre taxa de skip e alcance é <b class="tabular" style="color:var(--text)">-0,277</b> — moderada, não quase-nula como se pensava antes (-0,08 numa janela de 6 meses). <b style="color:var(--text)">Gancho fraco não é só estética — é a causa mais provável de um Reel não sair da rede próxima.</b> Invista tempo real nos primeiros 2-3 segundos: teste 2-3 variações de gancho por peça antes de gravar, sempre nomeando algo específico (objeção real, número, categoria) em vez de abertura genérica.</p>
+    </div>
+  </div>
+
+  <div class="card" style="padding:18px 20px; margin-bottom:16px;">
+    <h3 style="font-size:13.5px; margin-bottom:12px;">Checklist antes de publicar</h3>
+    <ul class="checklist">
+      <li><span class="num">01</span>O gancho nomeia algo específico (objeção, número, categoria) nos primeiros 2-3 segundos — não uma pergunta genérica?</li>
+      <li><span class="num">02</span>A peça está classificada corretamente por estágio de funil (topo/meio/fundo) nesse painel, e o mix da semana ainda bate com a proporção-alvo?</li>
+      <li><span class="num">03</span>Se for Formato C (objeção), a objeção nomeada é uma das reais do ICP (financeira, risco, conhecimento, tempo, experiência anterior, estratégica) — não uma objeção genérica de mercado?</li>
+      <li><span class="num">04</span>Antes de julgar o desempenho depois de publicado: uma fração relevante do engajamento veio de colegas/rede próxima? Se sim, descontar da leitura antes de tirar conclusão sobre craft ou tema.</li>
+      <li><span class="num">05</span>A peça reforça o território de marca (fundador presente, método com segurança) e evita se parecer com qualquer conteúdo genérico de agência, loja ou infoprodutor?</li>
+      <li><span class="num">06</span>Existe uma métrica combinada pra essa peça (alcance médio, taxa de skip, comentários) que será checada depois de publicar?</li>
+    </ul>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="padding:18px 20px;">
+      <h3 style="font-size:13.5px; margin-bottom:10px;">Lembrete de ICP</h3>
+      <p style="font-size:12.8px; color:var(--text-muted); line-height:1.6;">Empresário, sócio ou diretor de empresa que já vende produtos físicos, faturamento entre R$1M e R$50M/ano (ideal acima de R$5M/ano), buscando aumentar margem, reduzir custos e ganhar competitividade via importação. Importação é o mecanismo — o desejo real é margem, controle e vantagem competitiva, não "importar" como fim em si.</p>
+    </div>
+    <div class="card" style="padding:18px 20px;">
+      <h3 style="font-size:13.5px; margin-bottom:10px;">Mandato de dependência de mídia paga</h3>
+      <p style="font-size:12.8px; color:var(--text-muted); line-height:1.6;">Este painel não gerencia mídia paga (isso é da empresa de tráfego contratada). O papel aqui é crescer a base orgânica e reportar a dependência (~55-70% do alcance de conta hoje) como indicador a reduzir ao longo do tempo — não uma meta de curto prazo a forçar artificialmente.</p>
+    </div>
+  </div>
+  `;
+}
+</script>
+<script>
+/* ============================================================
+   OVERLAY (roteiro completo + notas persistidas)
+   ============================================================ */
+let dbCap = null;
+let currentItem = null;
+const localNotes = {}; // fallback in-memory quando db não está disponível
+
+async function initDb(){
+  try{
+    if(window.claude && typeof window.claude.use === "function"){
+      dbCap = await window.claude.use("db");
+    }
+  }catch(e){ dbCap = null; }
+  // depois de resolver, atualiza os pontinhos que já estão na tela
+  [...DAYS30,...STORIES].forEach(d=>refreshDot(d.id));
+}
+
+function findItem(id,type){
+  return type==="day" ? DAYS30.find(d=>d.id===id) : STORIES.find(s=>s.id===id);
+}
+
+async function refreshDot(id){
+  const dot = document.getElementById("dot-"+id); if(!dot) return;
+  let has = !!(localNotes[id] && (localNotes[id].link || localNotes[id].notes));
+  if(dbCap){
+    try{ const doc = await dbCap.doc("notes/"+id).get(); if(doc && doc.data && (doc.data.link || doc.data.notes)) has = true; }catch(e){}
+  }
+  dot.classList.toggle("on", has);
+}
+
+function openDetail(id, type){
+  currentItem = {id, type};
+  const d = findItem(id, type);
+  const panel = document.getElementById("overlayPanel");
+  const isDay = type==="day";
+  panel.innerHTML = `
+    <div class="op-head">
+      <button class="op-close" id="opClose">✕</button>
+      <div class="op-tags">
+        <span class="tag-pill tag-${d.funnel}">${d.funnel}</span>
+        <span class="tag-pill tag-misto">${isDay? d.fmt : d.frames.split(" — ")[0]}</span>
+      </div>
+      <h3>${d.title}</h3>
+      <div class="op-date">${isDay ? (d.wd+" · "+d.date+" · "+d.week) : d.rhythm}</div>
+    </div>
+    <div class="op-body">
+      <div class="op-block"><span class="op-label">Objetivo</span><p class="op-text">${isDay? d.obj : d.rhythm}</p></div>
+      <div class="op-block"><span class="op-label">Hook</span><div class="op-hook">${d.hook}</div></div>
+      <div class="op-block"><span class="op-label">Desenvolvimento</span><p class="op-text">${d.dev}</p></div>
+      <div class="op-block"><span class="op-label">CTA</span><div class="op-cta">${d.cta}</div></div>
+      ${!isDay? `<div class="op-block"><span class="op-label">Sequência de quadros</span><p class="op-text">${d.frames}</p></div>` : ""}
+      <div class="op-block">
+        <span class="op-label">Link de referência</span>
+        <input class="op-field" id="opLink" type="url" placeholder="https://..." />
+      </div>
+      <div class="op-block">
+        <span class="op-label">Anotações da equipe</span>
+        <textarea class="op-field" id="opNotes" rows="4" placeholder="Ex.: gravado em 08/09, trocar gancho na próxima..."></textarea>
+        <div class="op-sync" id="opSync"><span class="dot"></span><span id="opSyncTxt">carregando…</span></div>
+      </div>
+    </div>
+  `;
+  document.getElementById("opClose").onclick = closeDetail;
+  loadNotes(id);
+  document.getElementById("opLink").addEventListener("change", ()=>saveNotes(id));
+  document.getElementById("opNotes").addEventListener("blur", ()=>saveNotes(id));
+  document.getElementById("overlay").classList.add("open");
+}
+function closeDetail(){ document.getElementById("overlay").classList.remove("open"); }
+document.getElementById("overlayBg").onclick = closeDetail;
+
+async function loadNotes(id){
+  const syncEl = document.getElementById("opSync");
+  const syncTxt = document.getElementById("opSyncTxt");
+  let data = localNotes[id] || {};
+  if(dbCap){
+    try{
+      const doc = await dbCap.doc("notes/"+id).get();
+      if(doc && doc.data){ data = doc.data; }
+      syncEl.classList.remove("local"); syncTxt.textContent = "sincronizado com a equipe";
+      dbCap.doc("notes/"+id).onSnapshot((snap)=>{
+        if(!snap || !snap.data) return;
+        if(currentItem && currentItem.id===id){
+          const linkEl=document.getElementById("opLink"), notesEl=document.getElementById("opNotes");
+          if(linkEl && document.activeElement!==linkEl) linkEl.value = snap.data.link||"";
+          if(notesEl && document.activeElement!==notesEl) notesEl.value = snap.data.notes||"";
+        }
+        refreshDot(id);
+      });
+    }catch(e){ syncEl.classList.add("local"); syncTxt.textContent = "salvo só nesta sessão"; }
+  } else {
+    syncEl.classList.add("local"); syncTxt.textContent = "salvo só nesta sessão (sem conexão de dados)";
+  }
+  document.getElementById("opLink").value = data.link || "";
+  document.getElementById("opNotes").value = data.notes || "";
+}
+
+async function saveNotes(id){
+  const link = document.getElementById("opLink").value.trim();
+  const notes = document.getElementById("opNotes").value.trim();
+  localNotes[id] = {link, notes};
+  refreshDot(id);
+  if(dbCap){
+    try{ await dbCap.doc("notes/"+id).set({link, notes, updatedAt: Date.now()}); }catch(e){}
+  }
+}
+
+/* ============================================================
+   NAV + THEME + BOOT
+   ============================================================ */
+document.querySelectorAll(".navlink").forEach(btn=>{
+  btn.onclick = ()=>{
+    document.querySelectorAll(".navlink").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const v = btn.dataset.view;
+    document.querySelectorAll(".view").forEach(s=>s.classList.remove("active"));
+    document.getElementById("view-"+v).classList.add("active");
+    document.getElementById("topbar-h1").textContent = VIEWS[v].h1;
+    document.getElementById("topbar-sub").textContent = VIEWS[v].sub;
+  };
+});
+
+document.querySelectorAll("#themeToggle button").forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll("#themeToggle button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    const t = b.dataset.t;
+    if(t==="auto") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", t);
+  };
+});
+
+function setupTodaySnap(){
+  const todayItem = DAYS30.find(d=>dayStatus(d)==="hoje");
+  const snap = document.getElementById("todaySnap");
+  const txt = document.getElementById("todaySnapTxt");
+  if(todayItem){
+    const short = todayItem.title.length>36 ? todayItem.title.slice(0,36)+"…" : todayItem.title;
+    txt.innerHTML = `Hoje · <b>${todayItem.fmt}</b> ${short}`;
+    snap.onclick = ()=>{
+      document.querySelector('.navlink[data-view="plano"]').click();
+      openDetail(todayItem.id,"day");
+    };
+  } else {
+    txt.textContent = "Hoje está fora do plano de 30 dias";
+    snap.style.cursor = "default";
+  }
+}
+
+function tickClock(){
+  const el = document.getElementById("liveClock"); if(!el) return;
+  const n = new Date();
+  el.textContent = String(n.getHours()).padStart(2,"0")+":"+String(n.getMinutes()).padStart(2,"0");
+}
+
+document.getElementById("sidebarPulseDate").textContent = PULSE.fetchedAt;
+document.getElementById("topSnapFollowers").textContent = PULSE.followers.toLocaleString("pt-BR");
+
+renderDesempenho();
+renderPlano();
+renderStories();
+renderConcorrencia();
+renderOrientacoes();
+setupTodaySnap();
+initDb();
+tickClock();
+setInterval(tickClock, 15000);
+</script>
+
+</body></html>
