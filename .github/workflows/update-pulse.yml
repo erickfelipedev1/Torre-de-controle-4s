@@ -20,23 +20,65 @@ jobs:
         with:
           node-version: 20
 
-      - name: Buscar dados novos e reescrever o dashboard
+      # 1) Passo determinístico: busca os dados no Windsor.ai e recalcula os
+      #    números (seguidores, mídias, alcance...). Não chama nenhuma API de IA.
+      - name: Buscar dados novos e recalcular os números
+        id: fetch
         env:
           WINDSOR_API_KEY: ${{ secrets.WINDSOR_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node scripts/update-pulse.mjs
-
-      # Esse push já é suficiente: o Vercel e a Hostinger (deploy automático
-      # conectado ao GitHub, branch main) ficam de olho no repositório e
-      # republicam sozinhos sempre que index.html muda aqui.
-      - name: Commit e push no GitHub
         run: |
-          git config user.name "torre-de-controle-bot"
-          git config user.email "actions@users.noreply.github.com"
+          node scripts/update-pulse.mjs
           if git diff --quiet -- index.html; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "Nada mudou, sem commit."
-            exit 0
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-          git add index.html
-          git commit -m "chore: atualiza pulso ao vivo ($(date -u +'%Y-%m-%d %H:%M UTC'))"
-          git push
+
+      # 2) Passo com IA: a Claude Code Action (autenticada com a assinatura Claude
+      #    via CLAUDE_CODE_OAUTH_TOKEN, gerado com 'claude setup-token') reescreve
+      #    só o parágrafo de análise (achadoHtml) e commita tudo (números + texto).
+      - name: Claude reescreve a análise e publica
+        if: steps.fetch.outputs.changed == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Abra o arquivo index.html deste repositório. Dentro dele, entre os
+            marcadores "// PULSE_START" e "// PULSE_END", existe um objeto
+            JavaScript 'const PULSE = {...}' com métricas de Instagram já
+            recalculadas nesta rodada (seguidores, mídias, alcance etc.).
+
+            Sua única tarefa de edição: reescrever APENAS o campo 'achadoHtml'
+            desse objeto, com um novo parágrafo curto (2 a 5 frases) de análise,
+            em português do Brasil, no mesmo tom do resto do texto: direto,
+            analítico, sem enrolação, marcando explicitamente **DADO** (o que os
+            números confirmam) vs **HIPÓTESE** (o que ainda não dá pra confirmar)
+            quando fizer sentido. Comece o parágrafo com algo como
+            '<b style="color:var(--pink)">Achado atualizado (DD/MM):</b> '
+            usando a data de hoje. Baseie a análise nos valores atuais de
+            followers, mediaCount, accountReach30dAvg, newFollowersDayAvg e
+            reachReelSet dentro desse mesmo objeto PULSE, e no texto anterior de
+            achadoHtml (pra manter continuidade e não repetir a mesma frase da
+            rodada passada).
+
+            Regras rígidas:
+            - Edite SOMENTE o valor de 'achadoHtml' dentro do objeto PULSE. Não
+              toque em nenhum outro campo, nem em REACH_30D, RECENT_POSTS, nem
+              em qualquer outra parte do arquivo.
+            - O valor final precisa continuar sendo uma string JavaScript válida
+              entre aspas duplas, numa única linha lógica (pode usar tags <b>,
+              mas NUNCA aspas duplas dentro do texto — use aspas simples se
+              precisar citar algo).
+            - Depois de editar, rode exatamente estes comandos, nesta ordem:
+              git config user.name "torre-de-controle-bot"
+              git config user.email "actions@users.noreply.github.com"
+              git add index.html
+              git commit -m "chore: atualiza pulso ao vivo"
+              git push
+            - Faça só esse um commit, contendo tanto os números já recalculados
+              quanto a sua edição do achadoHtml.
+          claude_args: |
+            --allowedTools "Read,Edit,Bash(git config:*),Bash(git add:*),Bash(git commit:*),Bash(git push:*)"
+            --max-turns 6
