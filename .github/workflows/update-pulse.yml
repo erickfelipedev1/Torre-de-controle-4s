@@ -38,7 +38,7 @@ jobs:
       # 2) Passo com IA: a Claude Code Action (autenticada com a assinatura Claude
       #    via CLAUDE_CODE_OAUTH_TOKEN, gerado com 'claude setup-token') reescreve
       #    só o parágrafo de análise (achadoHtml) e commita tudo (números + texto).
-            - name: Claude reescreve a análise e publica
+      - name: Claude reescreve a análise e publica
         if: steps.fetch.outputs.changed == 'true'
         uses: anthropics/claude-code-action@v1
         with:
