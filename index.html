@@ -706,24 +706,23 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "22/09/2026",
+  fetchedAt: "23/09/2026",
   followers: 0,
   mediaCount: 0,
-  accountReach30dAvg: 21667,
-  newFollowersDayAvg: 55,
-  reachReelSet: 277,
+  accountReach30dAvg: 21569,
+  newFollowersDayAvg: 53,
+  reachReelSet: 283,
   followersDeltaText: "+0 desde a última leitura",
   mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 255 na janela anterior.",
-  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (22/09):</b> seguidores e mídias seguem zerados nesta leitura, repetindo o mesmo padrão da rodada anterior — já são dois ciclos seguidos com essas duas métricas fora do ar. <b>DADO</b>: a média de novos seguidores/dia (55) continua positiva mesmo com o total de seguidores em zero, uma inconsistência interna que reforça falha de coleta e não perda real de conta. Alcance de conta (21667/dia) e alcance médio por Reel (277) permanecem nos mesmos patamares da leitura anterior, sinal de que só os campos de perfil (seguidores/mídias) estão comprometidos, não o alcance. <b>HIPÓTESE</b>: o problema é persistente, não pontual, e provavelmente está na integração com a API de perfil — vale escalar a checagem de credenciais como prioridade antes da próxima rodada. Ação recomendada: manter seguidores/mídias fora de qualquer decisão até o log da automação confirmar a causa.",
+  reachReelSetNote: "vs. 258 na janela anterior.",
+  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (23/09):</b> seguidores e mídias completam o terceiro ciclo seguido zerados, o que já descarta oscilação pontual e aponta falha estrutural de coleta nesses dois campos. <b>DADO</b>: a média de novos seguidores/dia recuou de 55 para 53 e o alcance de conta caiu de 21667 para 21569/dia, variações pequenas que mostram o bloco de engajamento estável mesmo com o bloco de perfil zerado. O alcance médio por Reel subiu de 277 para 283 — acima inclusive da janela anterior (258) —, reforçando que o problema está isolado a seguidores/mídias e não contamina alcance. <b>HIPÓTESE</b>: com três leituras seguidas no mesmo estado, a causa mais provável é permissão ou escopo da API de perfil, e não mais uma falha transitória — a checagem de credenciais deixa de ser 'recomendada' e passa a ser bloqueante para validar a métrica. Ação recomendada: manter seguidores/mídias fora de qualquer decisão até confirmação no log da automação.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
 // REACH_30D_START
 const REACH_30D = [
-{d:"25/08",v:23324},
 {d:"26/08",v:23516},
 {d:"27/08",v:25642},
 {d:"28/08",v:21784},
@@ -751,27 +750,27 @@ const REACH_30D = [
 {d:"19/09",v:18675},
 {d:"20/09",v:28266},
 {d:"21/09",v:19619},
-{d:"22/09",v:0},
-{d:"22/09",v:13788}
+{d:"22/09",v:32347},
+{d:"23/09",v:0},
+{d:"23/09",v:1828}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"24/08",t:"Reel",reach:403},
 {d:"25/08",t:"Carrossel",reach:244},
-{d:"01/09",t:"Reel",reach:331},
-{d:"04/09",t:"Carrossel",reach:221},
-{d:"07/09",t:"Reel",reach:179},
-{d:"09/09",t:"Reel",reach:350},
-{d:"10/09",t:"Reel",reach:492},
-{d:"11/09",t:"Reel",reach:413},
-{d:"14/09",t:"Reel",reach:230},
-{d:"15/09",t:"Carrossel",reach:162},
-{d:"16/09",t:"Reel",reach:166},
-{d:"17/09",t:"Reel",reach:189},
-{d:"18/09",t:"Carrossel",reach:148},
-{d:"21/09",t:"Reel",reach:102}
+{d:"01/09",t:"Reel",reach:333},
+{d:"04/09",t:"Carrossel",reach:222},
+{d:"07/09",t:"Reel",reach:182},
+{d:"09/09",t:"Reel",reach:353},
+{d:"10/09",t:"Reel",reach:497},
+{d:"11/09",t:"Reel",reach:417},
+{d:"14/09",t:"Reel",reach:235},
+{d:"15/09",t:"Carrossel",reach:166},
+{d:"16/09",t:"Reel",reach:170},
+{d:"17/09",t:"Reel",reach:197},
+{d:"18/09",t:"Carrossel",reach:156},
+{d:"21/09",t:"Reel",reach:113}
 ];
 // RECENT_POSTS_END
 
