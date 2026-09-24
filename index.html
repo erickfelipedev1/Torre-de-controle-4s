@@ -706,24 +706,23 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "23/09/2026",
+  fetchedAt: "24/09/2026",
   followers: 0,
   mediaCount: 0,
-  accountReach30dAvg: 21815,
-  newFollowersDayAvg: 53,
-  reachReelSet: 288,
+  accountReach30dAvg: 21950,
+  newFollowersDayAvg: 54,
+  reachReelSet: 283,
   followersDeltaText: "+0 desde a última leitura",
   mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 262 na janela anterior.",
-  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (23/09):</b> seguidores e mídias completam o quarto ciclo seguido zerados, afastando de vez a hipótese de instabilidade pontual. <b>DADO</b>: o alcance de conta subiu de 21569 para 21815/dia e a média de novos seguidores/dia manteve-se estável em 53, mostrando que o bloco de engajamento segue saudável mesmo com o bloco de perfil zerado. O alcance médio por Reel avançou de 283 para 288, dando sequência à trajetória de alta das últimas leituras. <b>HIPÓTESE</b>: quatro rodadas seguidas no mesmo estado tornam a causa de permissão ou escopo da API de perfil mais provável do que falha transitória; a checagem de credenciais deve virar item bloqueante antes da próxima leitura, não mais recomendação. Ação recomendada: manter seguidores/mídias fora de qualquer decisão até confirmação no log da automação.",
+  reachReelSetNote: "vs. 295 na janela anterior.",
+  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (24/09):</b> seguidores e mídias chegam ao quinto ciclo consecutivo zerados, o que já ultrapassa qualquer janela razoável de falha transitória. <b>DADO</b>: o alcance de conta segue em alta, de 21815 para 21950/dia, e a média de novos seguidores/dia subiu de 53 para 54, confirmando que o bloco de engajamento continua saudável e dissociado do problema de perfil. Já o alcance médio por Reel recuou de 288 para 283 (vs. 295 na janela anterior), interrompendo a sequência de altas das últimas leituras. <b>HIPÓTESE</b>: essa queda no Reel pode ser só variação normal de mix de conteúdo, mas com cinco ciclos zerados o erro de permissão/escopo na API de perfil deixa de ser hipótese e vira a explicação mais provável; a credencial deve ser tratada como bloqueio imediato, não mais como item de checagem futura.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
 // REACH_30D_START
 const REACH_30D = [
-{d:"26/08",v:23516},
 {d:"27/08",v:25642},
 {d:"28/08",v:21784},
 {d:"29/08",v:25408},
@@ -751,26 +750,26 @@ const REACH_30D = [
 {d:"20/09",v:28266},
 {d:"21/09",v:19619},
 {d:"22/09",v:32347},
-{d:"23/09",v:0},
-{d:"23/09",v:9182}
+{d:"23/09",v:26772},
+{d:"24/09",v:0},
+{d:"24/09",v:9975}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"25/08",t:"Carrossel",reach:246},
-{d:"01/09",t:"Reel",reach:337},
-{d:"04/09",t:"Carrossel",reach:226},
-{d:"07/09",t:"Reel",reach:187},
-{d:"09/09",t:"Reel",reach:356},
-{d:"10/09",t:"Reel",reach:500},
-{d:"11/09",t:"Reel",reach:420},
-{d:"14/09",t:"Reel",reach:242},
-{d:"15/09",t:"Carrossel",reach:172},
-{d:"16/09",t:"Reel",reach:177},
-{d:"17/09",t:"Reel",reach:204},
-{d:"18/09",t:"Carrossel",reach:161},
-{d:"21/09",t:"Reel",reach:116}
+{d:"01/09",t:"Reel",reach:338},
+{d:"04/09",t:"Carrossel",reach:228},
+{d:"07/09",t:"Reel",reach:189},
+{d:"09/09",t:"Reel",reach:357},
+{d:"10/09",t:"Reel",reach:503},
+{d:"11/09",t:"Reel",reach:424},
+{d:"14/09",t:"Reel",reach:248},
+{d:"15/09",t:"Carrossel",reach:176},
+{d:"16/09",t:"Reel",reach:182},
+{d:"17/09",t:"Reel",reach:211},
+{d:"18/09",t:"Carrossel",reach:168},
+{d:"21/09",t:"Reel",reach:129}
 ];
 // RECENT_POSTS_END
 
