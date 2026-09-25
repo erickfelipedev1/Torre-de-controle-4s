@@ -709,15 +709,15 @@ const PULSE = {
   fetchedAt: "25/09/2026",
   followers: 0,
   mediaCount: 0,
-  accountReach30dAvg: 21672,
+  accountReach30dAvg: 21897,
   newFollowersDayAvg: 52,
-  reachReelSet: 244,
+  reachReelSet: 246,
   followersDeltaText: "+0 desde a última leitura",
   mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
   reachReelSetNote: "vs. 350 na janela anterior.",
-  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (25/09):</b> seguidores e mídias já somam sete ciclos seguidos zerados, consolidando o padrão de falha persistente no perfil. <b>DADO</b>: pela primeira vez em várias rodadas, as três métricas de engajamento recuaram juntas — alcance de conta caiu de 22118 para 21672/dia, novos seguidores/dia foi de 54 para 52, e o alcance médio por Reel despencou de 285 para 244, quebrando a leitura de que o problema estava isolado no bloco seguidores/mídias. <b>HIPÓTESE</b>: essa queda simultânea pode ser apenas sazonalidade do período, mas também abre a possibilidade de o mesmo bug de permissão/escopo estar passando a afetar dados agregados além do perfil; ainda não há evidência suficiente para descartar nenhuma das duas.",
+  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (25/09):</b> seguidores e mídias completam mais um ciclo zerado, já oito rodadas seguidas, sem sinal de correção no bug de coleta desse bloco. <b>DADO</b>: alcance de conta subiu de 21672 para 21897/dia e o alcance médio por Reel voltou a crescer, de 244 para 246, revertendo a queda conjunta da rodada passada, enquanto novos seguidores/dia ficou estável em 52. <b>HIPÓTESE</b>: essa recuperação sugere que o recuo anterior foi ruído pontual (sazonalidade) e não o mesmo bug de permissão atingindo dados agregados, mas como seguidores e mídias seguem zerados, ainda não dá pra confirmar que o problema estrutural ficou isolado ao bloco de perfil.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -752,7 +752,7 @@ const REACH_30D = [
 {d:"23/09",v:26772},
 {d:"24/09",v:25998},
 {d:"25/09",v:0},
-{d:"25/09",v:1297}
+{d:"25/09",v:8042}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
@@ -760,16 +760,16 @@ const REACH_30D = [
 const RECENT_POSTS = [
 {d:"01/09",t:"Reel",reach:340},
 {d:"04/09",t:"Carrossel",reach:229},
-{d:"07/09",t:"Reel",reach:192},
+{d:"07/09",t:"Reel",reach:193},
 {d:"09/09",t:"Reel",reach:361},
 {d:"10/09",t:"Reel",reach:506},
 {d:"11/09",t:"Reel",reach:429},
-{d:"14/09",t:"Reel",reach:251},
-{d:"15/09",t:"Carrossel",reach:179},
-{d:"16/09",t:"Reel",reach:186},
-{d:"17/09",t:"Reel",reach:216},
-{d:"18/09",t:"Carrossel",reach:174},
-{d:"21/09",t:"Reel",reach:136}
+{d:"14/09",t:"Reel",reach:255},
+{d:"15/09",t:"Carrossel",reach:181},
+{d:"16/09",t:"Reel",reach:189},
+{d:"17/09",t:"Reel",reach:219},
+{d:"18/09",t:"Carrossel",reach:177},
+{d:"21/09",t:"Reel",reach:139}
 ];
 // RECENT_POSTS_END
 
