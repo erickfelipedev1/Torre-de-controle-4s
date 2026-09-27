@@ -709,15 +709,15 @@ const PULSE = {
   fetchedAt: "27/09/2026",
   followers: 0,
   mediaCount: 0,
-  accountReach30dAvg: 21681,
+  accountReach30dAvg: 22051,
   newFollowersDayAvg: 52,
-  reachReelSet: 228,
+  reachReelSet: 219,
   followersDeltaText: "+0 desde a última leitura",
   mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
   reachReelSetNote: "vs. 372 na janela anterior.",
-  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (27/09):</b> seguidores e mídias completam a 13ª rodada seguida zerados, sinal de que o bug de coleta continua sem correção. <b>DADO</b>: o alcance de conta caiu de 22241 para 21681/dia, primeira queda depois de rodadas de alta, novos seguidores/dia recuou de 54 para 52, e o alcance médio por Reel subiu de 214 para 228/dia, ainda bem distante dos 372 da janela anterior. <b>HIPÓTESE</b>: a queda no alcance de conta pode ser início de reversão de tendência ou só ruído de uma leitura isolada, e a recuperação dos Reels segue lenta demais pra indicar volta ao nível anterior.",
+  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (27/09):</b> seguidores e mídias completam a 14ª rodada seguida zerados, confirmando que o bug de coleta segue sem correção. <b>DADO</b>: o alcance de conta se recuperou de 21681 para 22051/dia, novos seguidores/dia ficou estável em 52, e o alcance médio por Reel recuou de 228 para 219/dia, ainda menos da metade dos 372 registrados na janela anterior. <b>HIPÓTESE</b>: a alta no alcance de conta pode marcar retomada de tendência ou ser só oscilação pontual, e o recuo dos Reels sugere que o formato ainda não engatou de forma consistente.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -752,7 +752,7 @@ const REACH_30D = [
 {d:"25/09",v:23066},
 {d:"26/09",v:23946},
 {d:"27/09",v:0},
-{d:"27/09",v:1735}
+{d:"27/09",v:12858}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
@@ -765,12 +765,13 @@ const RECENT_POSTS = [
 {d:"10/09",t:"Reel",reach:515},
 {d:"11/09",t:"Reel",reach:436},
 {d:"14/09",t:"Reel",reach:273},
-{d:"15/09",t:"Carrossel",reach:195},
+{d:"15/09",t:"Carrossel",reach:196},
 {d:"16/09",t:"Reel",reach:202},
 {d:"17/09",t:"Reel",reach:236},
-{d:"18/09",t:"Carrossel",reach:194},
+{d:"18/09",t:"Carrossel",reach:195},
 {d:"21/09",t:"Reel",reach:162},
-{d:"26/09",t:"Reel",reach:265}
+{d:"26/09",t:"Reel",reach:307},
+{d:"27/09",t:"Reel",reach:135}
 ];
 // RECENT_POSTS_END
 
