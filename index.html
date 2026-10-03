@@ -706,18 +706,18 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "02/10/2026",
-  followers: 0,
-  mediaCount: 0,
-  accountReach30dAvg: 22323,
-  newFollowersDayAvg: 55,
-  reachReelSet: 310,
-  followersDeltaText: "-10355 desde a última leitura",
-  mediaDeltaText: "-389 novas desde a última leitura (389 → 0)",
+  fetchedAt: "03/10/2026",
+  followers: 10431,
+  mediaCount: 390,
+  accountReach30dAvg: 23262,
+  newFollowersDayAvg: 57,
+  reachReelSet: 338,
+  followersDeltaText: "+10431 desde a última leitura",
+  mediaDeltaText: "390 novas desde a última leitura (0 → 390)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 338 na janela anterior.",
-  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (02/10):</b> <b>DADO</b>: seguidores e mídias vieram zerados de novo (queda de 10355 e 389), o que repete o padrão de falha de coleta de duas rodadas atrás e não pode ser lido como perda real; esses dois números ficam fora da análise. O que a coleta sustenta: alcance médio de conta em 30 dias de 22323/dia, 55 novos seguidores/dia e alcance médio por Reel de 310, acima dos 283 da rodada passada, mas ainda abaixo dos 338 da janela anterior. <b>HIPÓTESE</b>: o Reel está se recuperando de forma parcial, mas com a base zerada e uma só leitura isso ainda não distingue tendência de oscilação normal; vale confirmar a base na próxima coleta antes de concluir.",
+  reachReelSetNote: "vs. 342 na janela anterior.",
+  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (03/10):</b> <b>DADO</b>: a coleta voltou ao normal, com 10431 seguidores e 390 mídias; o '+10431' do delta é só reflexo da leitura zerada anterior, não crescimento real. O alcance médio de conta em 30 dias subiu para 23262/dia (de 22323), com 57 novos seguidores/dia (de 55) e alcance médio por Reel de 338, acima dos 310 da rodada passada, mas ainda abaixo dos 342 da janela anterior. <b>HIPÓTESE</b>: a recuperação do Reel continua e a distância para a janela anterior já é pequena (4 pontos); ainda falta uma leitura com base estável para separar tendência de oscilação.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -751,28 +751,28 @@ const REACH_30D = [
 {d:"29/09",v:26938},
 {d:"30/09",v:23647},
 {d:"01/10",v:20090},
-{d:"02/10",v:0},
-{d:"02/10",v:2772}
+{d:"02/10",v:30956},
+{d:"03/10",v:0}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"04/09",t:"Carrossel",reach:271},
-{d:"07/09",t:"Reel",reach:217},
+{d:"04/09",t:"Carrossel",reach:276},
+{d:"07/09",t:"Reel",reach:218},
 {d:"09/09",t:"Reel",reach:368},
-{d:"10/09",t:"Reel",reach:540},
-{d:"11/09",t:"Reel",reach:463},
-{d:"14/09",t:"Reel",reach:295},
-{d:"15/09",t:"Carrossel",reach:213},
-{d:"16/09",t:"Reel",reach:221},
-{d:"17/09",t:"Reel",reach:261},
-{d:"18/09",t:"Carrossel",reach:218},
-{d:"21/09",t:"Reel",reach:203},
-{d:"26/09",t:"Reel",reach:374},
-{d:"27/09",t:"Reel",reach:473},
-{d:"29/09",t:"Reel",reach:270},
-{d:"01/10",t:"Reel",reach:232}
+{d:"10/09",t:"Reel",reach:544},
+{d:"11/09",t:"Reel",reach:468},
+{d:"14/09",t:"Reel",reach:296},
+{d:"15/09",t:"Carrossel",reach:214},
+{d:"16/09",t:"Reel",reach:223},
+{d:"17/09",t:"Reel",reach:275},
+{d:"18/09",t:"Carrossel",reach:222},
+{d:"21/09",t:"Reel",reach:213},
+{d:"26/09",t:"Reel",reach:386},
+{d:"27/09",t:"Reel",reach:485},
+{d:"29/09",t:"Reel",reach:283},
+{d:"01/10",t:"Reel",reach:321}
 ];
 // RECENT_POSTS_END
 
