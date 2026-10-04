@@ -709,15 +709,15 @@ const PULSE = {
   fetchedAt: "04/10/2026",
   followers: 0,
   mediaCount: 0,
-  accountReach30dAvg: 23520,
+  accountReach30dAvg: 23936,
   newFollowersDayAvg: 56,
-  reachReelSet: 354,
+  reachReelSet: 357,
   followersDeltaText: "+0 desde a última leitura",
   mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 345 na janela anterior.",
-  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (04/10):</b> <b>DADO</b>: seguidores e mídias continuam em 0, então a coleta dessas duas métricas segue quebrada e os deltas '+0' não valem como leitura da conta. O alcance médio de conta em 30 dias recuou para 23520/dia (de 23689) e os novos seguidores/dia caíram para 56 (de 58), mas o alcance médio por Reel subiu para 354, contra 345 na janela anterior. <b>HIPÓTESE</b>: o Reel está melhorando sozinho sem repassar o ganho à conta, o que pode ser só oscilação de curto prazo; sem seguidores e mídias reais não dá pra confirmar.",
+  reachReelSetNote: "vs. 346 na janela anterior.",
+  achadoHtml: "<b style=\"color:var(--pink)\">Achado atualizado (04/10):</b> <b>DADO</b>: seguidores e mídias seguem em 0, então a coleta dessas métricas continua quebrada e nada se conclui sobre crescimento da base. O alcance médio de conta em 30 dias subiu para 23936/dia (de 23520) e o alcance médio por Reel foi a 357, contra 346 na janela anterior; os novos seguidores/dia ficaram em 56. <b>HIPÓTESE</b>: desta vez Reel e conta sobem juntos, o que sugere ganho real de distribuição, mas com novos seguidores parados em 56/dia não dá pra afirmar que isso vira audiência fixa.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -752,7 +752,7 @@ const REACH_30D = [
 {d:"02/10",v:44583},
 {d:"03/10",v:28616},
 {d:"04/10",v:0},
-{d:"04/10",v:4082}
+{d:"04/10",v:16583}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
@@ -760,18 +760,18 @@ const REACH_30D = [
 const RECENT_POSTS = [
 {d:"07/09",t:"Reel",reach:219},
 {d:"09/09",t:"Reel",reach:368},
-{d:"10/09",t:"Reel",reach:551},
-{d:"11/09",t:"Reel",reach:471},
+{d:"10/09",t:"Reel",reach:552},
+{d:"11/09",t:"Reel",reach:473},
 {d:"14/09",t:"Reel",reach:298},
 {d:"15/09",t:"Carrossel",reach:215},
 {d:"16/09",t:"Reel",reach:225},
-{d:"17/09",t:"Reel",reach:283},
-{d:"18/09",t:"Carrossel",reach:227},
+{d:"17/09",t:"Reel",reach:284},
+{d:"18/09",t:"Carrossel",reach:228},
 {d:"21/09",t:"Reel",reach:222},
-{d:"26/09",t:"Reel",reach:397},
-{d:"27/09",t:"Reel",reach:504},
-{d:"29/09",t:"Reel",reach:299},
-{d:"01/10",t:"Reel",reach:346}
+{d:"26/09",t:"Reel",reach:398},
+{d:"27/09",t:"Reel",reach:509},
+{d:"29/09",t:"Reel",reach:302},
+{d:"01/10",t:"Reel",reach:352}
 ];
 // RECENT_POSTS_END
 
