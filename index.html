@@ -706,18 +706,18 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "13/10/2026",
-  followers: 0,
-  mediaCount: 0,
-  accountReach30dAvg: 26859,
-  newFollowersDayAvg: 62,
-  reachReelSet: 319,
-  followersDeltaText: "+0 desde a última leitura",
-  mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
+  fetchedAt: "14/10/2026",
+  followers: 11269,
+  mediaCount: 392,
+  accountReach30dAvg: 27323,
+  newFollowersDayAvg: 67,
+  reachReelSet: 311,
+  followersDeltaText: "+11269 desde a última leitura",
+  mediaDeltaText: "392 novas desde a última leitura (0 → 392)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 363 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (13/10):</b> <b>DADO</b>: seguidores e mídias seguem zerados (0 e 0), então continuam sendo falha de coleta e não perda real; o delta de +0 não diz nada sobre crescimento. Já o alcance médio de conta caiu mais um pouco, para 26859/dia (era 27161), os novos seguidores/dia foram de 64 para 62 e o alcance médio por Reel subiu de 315 para 319, ainda abaixo dos 363 da janela anterior. <b>HIPÓTESE</b>: a leve recuperação do Reel pode indicar estabilização depois da queda, mas com a conta em tendência de queda suave no alcance e sem leitura válida de seguidores/mídias, ainda não dá pra confirmar reversão.",
+  reachReelSetNote: "vs. 364 na janela anterior.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (14/10):</b> <b>DADO</b>: a coleta voltou a ler seguidores e mídias (11269 e 392), então a falha de zeros acabou, mas os deltas '+11269' e '0 → 392' são só artefato da leitura zerada anterior e não indicam crescimento. O alcance médio de conta subiu para 27323/dia (era 26859), os novos seguidores/dia foram de 62 para 67, enquanto o alcance médio por Reel caiu de 319 para 311, abaixo dos 364 da janela anterior. <b>HIPÓTESE</b>: a conta parece ganhar fôlego por outros formatos ou por distribuição fora dos Reels, já que o Reel segue em queda; sem a série por post, ainda não dá pra confirmar a causa.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -751,25 +751,24 @@ const REACH_30D = [
 {d:"10/10",v:28127},
 {d:"11/10",v:32471},
 {d:"12/10",v:31350},
-{d:"13/10",v:0},
-{d:"13/10",v:4764}
+{d:"13/10",v:18671},
+{d:"14/10",v:0}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"14/09",t:"Reel",reach:320},
 {d:"15/09",t:"Carrossel",reach:232},
 {d:"16/09",t:"Reel",reach:250},
-{d:"17/09",t:"Reel",reach:313},
-{d:"18/09",t:"Carrossel",reach:253},
-{d:"21/09",t:"Reel",reach:260},
-{d:"26/09",t:"Reel",reach:435},
-{d:"27/09",t:"Reel",reach:559},
-{d:"29/09",t:"Reel",reach:356},
-{d:"01/10",t:"Reel",reach:434},
-{d:"07/10",t:"Reel",reach:288},
-{d:"09/10",t:"Reel",reach:197}
+{d:"17/09",t:"Reel",reach:314},
+{d:"18/09",t:"Carrossel",reach:254},
+{d:"21/09",t:"Reel",reach:261},
+{d:"26/09",t:"Reel",reach:439},
+{d:"27/09",t:"Reel",reach:561},
+{d:"29/09",t:"Reel",reach:359},
+{d:"01/10",t:"Reel",reach:436},
+{d:"07/10",t:"Reel",reach:293},
+{d:"09/10",t:"Reel",reach:204}
 ];
 // RECENT_POSTS_END
 
