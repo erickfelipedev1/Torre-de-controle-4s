@@ -709,15 +709,15 @@ const PULSE = {
   fetchedAt: "14/10/2026",
   followers: 0,
   mediaCount: 0,
-  accountReach30dAvg: 26735,
-  newFollowersDayAvg: 65,
-  reachReelSet: 314,
-  followersDeltaText: "-11269 desde a última leitura",
-  mediaDeltaText: "-392 novas desde a última leitura (392 → 0)",
+  accountReach30dAvg: 27101,
+  newFollowersDayAvg: 67,
+  reachReelSet: 316,
+  followersDeltaText: "+0 desde a última leitura",
+  mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
   reachReelSetNote: "vs. 366 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (14/10):</b> <b>DADO</b>: seguidores e mídias voltaram a 0, então a falha de leitura reapareceu e os deltas '-11269' e '392 → 0' são artefato, não perda real. Nas métricas que seguem válidas, o alcance médio de conta ficou em 26735/dia (era 27323), os novos seguidores/dia em 65 (era 67) e o alcance médio por Reel em 314 (era 311), ainda abaixo dos 366 da janela anterior. <b>HIPÓTESE</b>: o leve recuo de conta com Reel quase estável sugere acomodação após o pico anterior, não ruptura; sem a leitura correta de seguidores e a série por post, não dá pra confirmar.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (14/10):</b> <b>DADO</b>: seguidores e mídias seguem em 0, então a leitura desses dois campos continua falhando e os deltas zerados não dizem nada sobre a conta real. O que vale: alcance médio de conta subiu para 27101/dia (era 26735), novos seguidores/dia foram a 67 (era 65) e o alcance médio por Reel foi a 316 (era 314), ainda abaixo dos 366 da janela anterior. <b>HIPÓTESE</b>: a recuperação conjunta de conta e aquisição sugere que o recuo da rodada passada foi oscilação, não tendência, mas o Reel continua sem recuperar o patamar anterior e isso só se confirma com seguidores e série por post lidos corretamente.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -752,7 +752,7 @@ const REACH_30D = [
 {d:"12/10",v:31350},
 {d:"13/10",v:25754},
 {d:"14/10",v:0},
-{d:"14/10",v:1751}
+{d:"14/10",v:12723}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
@@ -767,8 +767,8 @@ const RECENT_POSTS = [
 {d:"27/09",t:"Reel",reach:563},
 {d:"29/09",t:"Reel",reach:361},
 {d:"01/10",t:"Reel",reach:439},
-{d:"07/10",t:"Reel",reach:295},
-{d:"09/10",t:"Reel",reach:208}
+{d:"07/10",t:"Reel",reach:298},
+{d:"09/10",t:"Reel",reach:210}
 ];
 // RECENT_POSTS_END
 
