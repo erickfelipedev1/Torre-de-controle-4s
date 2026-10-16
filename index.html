@@ -709,15 +709,15 @@ const PULSE = {
   fetchedAt: "16/10/2026",
   followers: 0,
   mediaCount: 0,
-  accountReach30dAvg: 27533,
+  accountReach30dAvg: 27604,
   newFollowersDayAvg: 70,
-  reachReelSet: 279,
+  reachReelSet: 281,
   followersDeltaText: "+0 desde a última leitura",
   mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
   reachReelSetNote: "vs. 426 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (16/10):</b> <b>DADO</b>: seguidores e mídias seguem em 0, sem leitura válida. O alcance médio de conta voltou a subir para 27533/dia (era 27326), os novos seguidores foram a 70/dia (era 66) e o alcance por Reel ficou praticamente estável em 279 (era 277), ainda bem abaixo dos 426 da janela anterior. <b>HIPÓTESE</b>: a recuperação da conta e dos novos seguidores sem reação do Reel sugere que o ganho vem de outros formatos, e não de uma retomada do Reel; só dá pra confirmar com a série por post e a leitura correta de seguidores.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (16/10):</b> <b>DADO</b>: seguidores e mídias continuam em 0, então a leitura da API segue inválida e não dá pra medir crescimento absoluto. O alcance médio de conta subiu de leve para 27604/dia (era 27533), os novos seguidores ficaram em 70/dia (estável) e o alcance por Reel foi a 281 (era 279), ainda bem abaixo dos 426 da janela anterior. <b>HIPÓTESE</b>: o ritmo constante de 70 novos seguidores/dia com alcance subindo devagar indica base de aquisição estável, mas o Reel parece não ser o motor; só dá pra confirmar com a série por post e a correção da leitura de seguidores.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -752,21 +752,21 @@ const REACH_30D = [
 {d:"14/10",v:32374},
 {d:"15/10",v:30677},
 {d:"16/10",v:0},
-{d:"16/10",v:7227}
+{d:"16/10",v:9347}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
 {d:"17/09",t:"Reel",reach:322},
-{d:"18/09",t:"Carrossel",reach:261},
+{d:"18/09",t:"Carrossel",reach:263},
 {d:"21/09",t:"Reel",reach:276},
-{d:"26/09",t:"Reel",reach:454},
-{d:"27/09",t:"Reel",reach:575},
-{d:"29/09",t:"Reel",reach:373},
+{d:"26/09",t:"Reel",reach:455},
+{d:"27/09",t:"Reel",reach:576},
+{d:"29/09",t:"Reel",reach:374},
 {d:"01/10",t:"Reel",reach:450},
-{d:"07/10",t:"Reel",reach:320},
-{d:"09/10",t:"Reel",reach:238}
+{d:"07/10",t:"Reel",reach:321},
+{d:"09/10",t:"Reel",reach:240}
 ];
 // RECENT_POSTS_END
 
