@@ -706,18 +706,18 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "26/10/2026",
-  followers: 0,
-  mediaCount: 0,
-  accountReach30dAvg: 26675,
-  newFollowersDayAvg: 73,
-  reachReelSet: 516,
-  followersDeltaText: "+0 desde a última leitura",
-  mediaDeltaText: "0 novas desde a última leitura (0 → 0)",
+  fetchedAt: "27/10/2026",
+  followers: 12260,
+  mediaCount: 400,
+  accountReach30dAvg: 26875,
+  newFollowersDayAvg: 76,
+  reachReelSet: 519,
+  followersDeltaText: "+12260 desde a última leitura",
+  mediaDeltaText: "400 novas desde a última leitura (0 → 400)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 400 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (26/10):</b> <b>DADO</b>: o alcance médio do Reel chegou a 516 (+2,0% sobre os 506 da leitura anterior e +29,0% sobre os 400 da janela anterior), o alcance de conta voltou a subir de 26455 para 26675/dia (+0,8%) e os novos seguidores ficaram estáveis em 73/dia. Followers e mídias continuam em 0, então a base segue sem leitura confiável. <b>HIPÓTESE</b>: a tração do Reel parece estar se estabilizando num patamar mais alto e a conta começa a acompanhar de leve, mas sem alta nos novos seguidores ainda não dá pra dizer que o alcance extra vira audiência; isso depende de mais leituras e de followers/mediaCount voltarem a ser lidos.",
+  reachReelSetNote: "vs. 401 na janela anterior.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (27/10):</b> <b>DADO</b>: followers e mídias voltaram a ser lidos (12260 seguidores, 400 mídias), então a base finalmente tem referência; o alcance médio do Reel foi a 519 (+0,6% sobre os 516 da leitura anterior), o alcance de conta subiu de 26675 para 26875/dia (+0,7%) e os novos seguidores avançaram de 73 para 76/dia (+4,1%). <b>HIPÓTESE</b>: com 76 novos/dia, o ritmo sugere cerca de 2300 seguidores no mês, o que indicaria que o alcance extra começa a virar audiência, mas ainda não dá pra confirmar sem um segundo ponto de followers para medir a variação real.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -751,26 +751,25 @@ const REACH_30D = [
 {d:"23/10",v:21601},
 {d:"24/10",v:20503},
 {d:"25/10",v:27296},
-{d:"26/10",v:0},
-{d:"26/10",v:9017}
+{d:"26/10",v:15010},
+{d:"27/10",v:0}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"27/09",t:"Reel",reach:650},
-{d:"29/09",t:"Reel",reach:434},
-{d:"01/10",t:"Reel",reach:495},
+{d:"29/09",t:"Reel",reach:435},
+{d:"01/10",t:"Reel",reach:497},
 {d:"07/10",t:"Reel",reach:378},
-{d:"09/10",t:"Reel",reach:293},
+{d:"09/10",t:"Reel",reach:294},
 {d:"17/10",t:"Reel",reach:852},
-{d:"19/10",t:"Reel",reach:751},
-{d:"22/10",t:"Carrossel",reach:385},
+{d:"19/10",t:"Reel",reach:753},
+{d:"22/10",t:"Carrossel",reach:386},
 {d:"23/10",t:"Reel",reach:19},
-{d:"23/10",t:"Reel",reach:307},
-{d:"24/10",t:"Reel",reach:825},
-{d:"24/10",t:"Reel",reach:341},
-{d:"25/10",t:"Carrossel",reach:86}
+{d:"23/10",t:"Reel",reach:309},
+{d:"24/10",t:"Reel",reach:832},
+{d:"24/10",t:"Reel",reach:346},
+{d:"25/10",t:"Carrossel",reach:91}
 ];
 // RECENT_POSTS_END
 
