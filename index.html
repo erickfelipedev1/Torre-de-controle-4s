@@ -706,25 +706,23 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "05/11/2026",
-  followers: 13105,
-  mediaCount: 403,
-  accountReach30dAvg: 24386,
-  newFollowersDayAvg: 84,
-  reachReelSet: 429,
-  followersDeltaText: "+94 desde a última leitura",
-  mediaDeltaText: "0 novas desde a última leitura (403 → 403)",
+  fetchedAt: "06/11/2026",
+  followers: 0,
+  mediaCount: 0,
+  accountReach30dAvg: 23243,
+  newFollowersDayAvg: 82,
+  reachReelSet: 440,
+  followersDeltaText: "-13105 desde a última leitura",
+  mediaDeltaText: "-403 novas desde a última leitura (403 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 687 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (05/11):</b> <b>DADO</b>: a conta foi de 13011 para 13105 seguidores (+94) sem nenhuma mídia nova (403 → 403), com novos seguidores estáveis em 84/dia; o alcance médio da conta recuou para 24386/dia (de 24993, -2,4%), enquanto o alcance médio por Reel subiu para 429 (de 405, +5,9%), ainda abaixo dos 687 da janela anterior. <b>HIPÓTESE</b>: o ganho de seguidores sem publicar sugere que o crescimento vem de conteúdo já no ar, não de post novo, e a leve queda de alcance pode refletir só a falta de publicação; a recuperação do Reel é pequena demais pra chamar de tendência, e só dá pra confirmar com mais algumas leituras ou cruzando alcance por tipo de mídia.",
+  reachReelSetNote: "vs. 689 na janela anterior.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (06/11):</b> <b>DADO</b>: a leitura veio com 0 seguidores e 0 mídias (de 13105 e 403), o que não é queda real e aponta falha na coleta; já as métricas de janela seguem coerentes: alcance médio da conta em 23243/dia (de 24386, -4,7%), novos seguidores em 82/dia (de 84) e alcance médio por Reel em 440 (de 429, +2,6%), ainda abaixo dos 689 da janela anterior. <b>HIPÓTESE</b>: o alcance da conta continua cedendo sem publicação nova e o Reel segue estável em patamar baixo, mas isso só se confirma com uma leitura válida de seguidores e mídias na próxima rodada; até lá, não dá pra tratar o -13105 como perda de audiência.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
 // REACH_30D_START
 const REACH_30D = [
-{d:"07/10",v:28331},
-{d:"08/10",v:33883},
 {d:"09/10",v:28534},
 {d:"10/10",v:28127},
 {d:"11/10",v:32471},
@@ -751,24 +749,25 @@ const REACH_30D = [
 {d:"01/11",v:23653},
 {d:"02/11",v:25577},
 {d:"03/11",v:21037},
-{d:"04/11",v:19265},
-{d:"05/11",v:0}
+{d:"04/11",v:24173},
+{d:"05/11",v:18661},
+{d:"06/11",v:0},
+{d:"06/11",v:4332}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"07/10",t:"Reel",reach:384},
-{d:"09/10",t:"Reel",reach:326},
-{d:"17/10",t:"Reel",reach:906},
-{d:"19/10",t:"Reel",reach:828},
-{d:"22/10",t:"Carrossel",reach:475},
+{d:"09/10",t:"Reel",reach:327},
+{d:"17/10",t:"Reel",reach:909},
+{d:"19/10",t:"Reel",reach:832},
+{d:"22/10",t:"Carrossel",reach:479},
 {d:"23/10",t:"Reel",reach:19},
-{d:"23/10",t:"Reel",reach:420},
-{d:"24/10",t:"Reel",reach:974},
-{d:"24/10",t:"Reel",reach:531},
-{d:"25/10",t:"Carrossel",reach:233},
-{d:"03/11",t:"Reel",reach:200}
+{d:"23/10",t:"Reel",reach:425},
+{d:"24/10",t:"Reel",reach:987},
+{d:"24/10",t:"Reel",reach:538},
+{d:"25/10",t:"Carrossel",reach:247},
+{d:"03/11",t:"Reel",reach:232}
 ];
 // RECENT_POSTS_END
 
