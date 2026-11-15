@@ -707,23 +707,22 @@ const FORMATS = [
 // PULSE_START
 const PULSE = {
   fetchedAt: "15/11/2026",
-  followers: 13762,
-  mediaCount: 401,
-  accountReach30dAvg: 21024,
-  newFollowersDayAvg: 81,
-  reachReelSet: 276,
-  followersDeltaText: "+13762 desde a última leitura",
-  mediaDeltaText: "401 novas desde a última leitura (0 → 401)",
+  followers: 0,
+  mediaCount: 0,
+  accountReach30dAvg: 20576,
+  newFollowersDayAvg: 79,
+  reachReelSet: 277,
+  followersDeltaText: "-13762 desde a última leitura",
+  mediaDeltaText: "-401 novas desde a última leitura (401 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 608 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (15/11):</b> <b>DADO</b>: a leitura de seguidores normalizou em 13.762 (+49 vs. 13.713 antes do zero) com 401 mídias, e o alcance médio da conta subiu para 21.024/dia (de 20.689, +1,6%) com 81 novos seguidores/dia (de 79). O alcance médio por Reel foi a 276 (de 272), ainda menos da metade dos 608 da janela anterior. <b>HIPÓTESE</b>: o ganho de conta vem de outros formatos e não dos Reels, mas isso só se confirma cruzando REACH_30D com RECENT_POSTS.",
+  reachReelSetNote: "vs. 609 na janela anterior.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (15/11):</b> <b>DADO</b>: a leitura veio com 0 seguidores e 0 mídias (queda de 13.762 e 401 na leitura anterior), o que é incompatível com uma conta que segue com 79 novos seguidores/dia; trate como falha de coleta e não como perda real. O alcance médio da conta ficou em 20.576/dia (de 21.024, -2,1%) e o alcance médio por Reel em 277 (de 276), ainda menos da metade dos 609 da janela anterior. <b>HIPÓTESE</b>: o recuo de alcance da conta é oscilação normal e a fraqueza dos Reels persiste, mas só dá pra confirmar depois de uma leitura válida de seguidores e do cruzamento REACH_30D x RECENT_POSTS.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
 // REACH_30D_START
 const REACH_30D = [
-{d:"17/10",v:19892},
 {d:"18/10",v:26247},
 {d:"19/10",v:18226},
 {d:"20/10",v:24245},
@@ -751,24 +750,25 @@ const REACH_30D = [
 {d:"11/11",v:20153},
 {d:"12/11",v:18252},
 {d:"13/11",v:15925},
-{d:"14/11",v:13652},
-{d:"15/11",v:0}
+{d:"14/11",v:17281},
+{d:"15/11",v:0},
+{d:"15/11",v:2800}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"17/10",t:"Reel",reach:950},
-{d:"19/10",t:"Reel",reach:879},
-{d:"22/10",t:"Carrossel",reach:537},
+{d:"17/10",t:"Reel",reach:951},
+{d:"19/10",t:"Reel",reach:881},
+{d:"22/10",t:"Carrossel",reach:538},
 {d:"23/10",t:"Reel",reach:19},
 {d:"23/10",t:"Reel",reach:479},
-{d:"24/10",t:"Reel",reach:1061},
+{d:"24/10",t:"Reel",reach:1063},
 {d:"24/10",t:"Reel",reach:601},
-{d:"25/10",t:"Carrossel",reach:330},
+{d:"25/10",t:"Carrossel",reach:331},
 {d:"03/11",t:"Reel",reach:302},
-{d:"12/11",t:"Reel",reach:249},
-{d:"13/11",t:"Carrossel",reach:69}
+{d:"12/11",t:"Reel",reach:252},
+{d:"13/11",t:"Carrossel",reach:72}
 ];
 // RECENT_POSTS_END
 
