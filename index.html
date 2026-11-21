@@ -706,18 +706,18 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "20/11/2026",
-  followers: 0,
-  mediaCount: 0,
-  accountReach30dAvg: 19411,
-  newFollowersDayAvg: 76,
-  reachReelSet: 394,
-  followersDeltaText: "-14092 desde a última leitura",
-  mediaDeltaText: "-404 novas desde a última leitura (404 → 0)",
+  fetchedAt: "21/11/2026",
+  followers: 14165,
+  mediaCount: 404,
+  accountReach30dAvg: 19758,
+  newFollowersDayAvg: 78,
+  reachReelSet: 405,
+  followersDeltaText: "+14165 desde a última leitura",
+  mediaDeltaText: "404 novas desde a última leitura (0 → 404)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 513 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (20/11):</b> <b>DADO</b>: a leitura de perfil veio zerada (0 seguidores, 0 mídias), então os deltas '-14092' e '404 → 0' são falha de coleta, não perda real; o perfil de ontem (14.092 seguidores, 404 mídias) segue como última referência válida. Nas métricas que vieram preenchidas, o alcance médio da conta caiu para 19.411/dia (-2,4% sobre 19.894), os novos seguidores para 76/dia (de 78) e o alcance médio por Reel subiu para 394 (+7,4% sobre 367), ainda ~23% abaixo dos 513 da janela anterior. <b>HIPÓTESE</b>: Reel em recuperação com conta e aquisição levemente em baixa sugere ganho pontual de formato, mas só dá pra confirmar com uma leitura de perfil válida e a abertura por formato.",
+  reachReelSetNote: "vs. 682 na janela anterior.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (21/11):</b> <b>DADO</b>: a leitura de perfil voltou válida: 14.165 seguidores (+73 sobre os 14.092 de ontem, perto dos 78/dia de aquisição) e 404 mídias, ou seja, sem post novo; o '+14165' e o '0 → 404' dos deltas são resíduo da leitura zerada de ontem, não crescimento real. O alcance médio da conta voltou a subir para 19.758/dia (+1,8% sobre 19.411) e o alcance médio por Reel foi a 405 (+2,8% sobre 394), mas segue ~40% abaixo dos 682 citados como janela anterior. <b>HIPÓTESE</b>: com zero publicação nova, a alta de alcance parece vir de distribuição de conteúdo já existente, mas só a abertura por formato e por post confirma isso.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -751,25 +751,24 @@ const REACH_30D = [
 {d:"17/11",v:18016},
 {d:"18/11",v:15190},
 {d:"19/11",v:15246},
-{d:"20/11",v:0},
-{d:"20/11",v:5376}
+{d:"20/11",v:15810},
+{d:"21/11",v:0}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"22/10",t:"Carrossel",reach:559},
 {d:"23/10",t:"Reel",reach:19},
-{d:"23/10",t:"Reel",reach:506},
-{d:"24/10",t:"Reel",reach:1102},
-{d:"24/10",t:"Reel",reach:625},
-{d:"25/10",t:"Carrossel",reach:363},
+{d:"23/10",t:"Reel",reach:508},
+{d:"24/10",t:"Reel",reach:1105},
+{d:"24/10",t:"Reel",reach:627},
+{d:"25/10",t:"Carrossel",reach:366},
 {d:"03/11",t:"Reel",reach:315},
-{d:"12/11",t:"Reel",reach:300},
-{d:"13/11",t:"Carrossel",reach:120},
-{d:"17/11",t:"Reel",reach:587},
-{d:"18/11",t:"Reel",reach:329},
-{d:"19/11",t:"Reel",reach:359}
+{d:"12/11",t:"Reel",reach:301},
+{d:"13/11",t:"Carrossel",reach:122},
+{d:"17/11",t:"Reel",reach:595},
+{d:"18/11",t:"Reel",reach:350},
+{d:"19/11",t:"Reel",reach:372}
 ];
 // RECENT_POSTS_END
 
