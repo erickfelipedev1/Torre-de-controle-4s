@@ -706,18 +706,18 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "22/11/2026",
-  followers: 0,
-  mediaCount: 0,
-  accountReach30dAvg: 19078,
-  newFollowersDayAvg: 75,
-  reachReelSet: 418,
-  followersDeltaText: "-14228 desde a última leitura",
-  mediaDeltaText: "-404 novas desde a última leitura (404 → 0)",
+  fetchedAt: "23/11/2026",
+  followers: 14318,
+  mediaCount: 405,
+  accountReach30dAvg: 19396,
+  newFollowersDayAvg: 77,
+  reachReelSet: 348,
+  followersDeltaText: "+14318 desde a última leitura",
+  mediaDeltaText: "405 novas desde a última leitura (0 → 405)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
   reachReelSetNote: "vs. 316 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (22/11):</b> <b>DADO</b>: seguidores e mídias vieram zerados de novo (0 e 0), então essa leitura de perfil é inválida e não dá pra comparar com os 14.228 / 404 da rodada anterior. Já o alcance médio da conta recuou para 19.078/dia (-2,2% sobre 19.509), a aquisição caiu para 75 seguidores/dia (vs. 78) e o alcance médio por Reel subiu para 418 (+1,0% sobre 414), ainda bem abaixo dos 683 de duas janelas atrás. <b>HIPÓTESE</b>: a leitura zerada é falha de coleta da API, não perda real de seguidores, mas só dá pra confirmar na próxima rodada com valores válidos.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (23/11):</b> <b>DADO</b>: a leitura de perfil voltou válida, com 14.318 seguidores (+90 sobre os 14.228 da última leitura boa) e 405 mídias (+1). O alcance médio da conta subiu para 19.396/dia (+1,7% sobre 19.078), a aquisição foi para 77 seguidores/dia (vs. 75) e o alcance médio por Reel caiu para 348 (vs. 316 na janela anterior, +10,1%, mas ainda bem abaixo dos 683 de três janelas atrás). <b>HIPÓTESE</b>: o zero da rodada passada foi mesmo falha de coleta, já que os números retomaram a trajetória esperada, mas ainda não dá pra afirmar que o Reel saiu do patamar baixo com apenas uma janela de alta.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -751,22 +751,21 @@ const REACH_30D = [
 {d:"19/11",v:15246},
 {d:"20/11",v:18612},
 {d:"21/11",v:14703},
-{d:"22/11",v:0},
-{d:"22/11",v:4180}
+{d:"22/11",v:13723},
+{d:"23/11",v:0}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"24/10",t:"Reel",reach:1108},
-{d:"24/10",t:"Reel",reach:632},
 {d:"25/10",t:"Carrossel",reach:372},
 {d:"03/11",t:"Reel",reach:316},
-{d:"12/11",t:"Reel",reach:310},
-{d:"13/11",t:"Carrossel",reach:129},
-{d:"17/11",t:"Reel",reach:615},
-{d:"18/11",t:"Reel",reach:361},
-{d:"19/11",t:"Reel",reach:384}
+{d:"12/11",t:"Reel",reach:313},
+{d:"13/11",t:"Carrossel",reach:131},
+{d:"17/11",t:"Reel",reach:616},
+{d:"18/11",t:"Reel",reach:367},
+{d:"19/11",t:"Reel",reach:390},
+{d:"23/11",t:"Reel",reach:52}
 ];
 // RECENT_POSTS_END
 
