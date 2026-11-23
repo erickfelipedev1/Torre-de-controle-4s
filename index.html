@@ -707,13 +707,13 @@ const FORMATS = [
 // PULSE_START
 const PULSE = {
   fetchedAt: "23/11/2026",
-  followers: 14318,
-  mediaCount: 405,
-  accountReach30dAvg: 19396,
-  newFollowersDayAvg: 77,
-  reachReelSet: 348,
-  followersDeltaText: "+14318 desde a última leitura",
-  mediaDeltaText: "405 novas desde a última leitura (0 → 405)",
+  followers: 0,
+  mediaCount: 0,
+  accountReach30dAvg: 18695,
+  newFollowersDayAvg: 74,
+  reachReelSet: 373,
+  followersDeltaText: "-14318 desde a última leitura",
+  mediaDeltaText: "-405 novas desde a última leitura (405 → 0)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
   reachReelSetNote: "vs. 316 na janela anterior.",
@@ -723,7 +723,6 @@ const PULSE = {
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
 // REACH_30D_START
 const REACH_30D = [
-{d:"25/10",v:27296},
 {d:"26/10",v:23260},
 {d:"27/10",v:44545},
 {d:"28/10",v:21677},
@@ -751,21 +750,22 @@ const REACH_30D = [
 {d:"19/11",v:15246},
 {d:"20/11",v:18612},
 {d:"21/11",v:14703},
-{d:"22/11",v:13723},
-{d:"23/11",v:0}
+{d:"22/11",v:15890},
+{d:"23/11",v:0},
+{d:"23/11",v:4097}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"25/10",t:"Carrossel",reach:372},
+{d:"25/10",t:"Carrossel",reach:373},
 {d:"03/11",t:"Reel",reach:316},
-{d:"12/11",t:"Reel",reach:313},
-{d:"13/11",t:"Carrossel",reach:131},
-{d:"17/11",t:"Reel",reach:616},
-{d:"18/11",t:"Reel",reach:367},
-{d:"19/11",t:"Reel",reach:390},
-{d:"23/11",t:"Reel",reach:52}
+{d:"12/11",t:"Reel",reach:316},
+{d:"13/11",t:"Carrossel",reach:136},
+{d:"17/11",t:"Reel",reach:621},
+{d:"18/11",t:"Reel",reach:373},
+{d:"19/11",t:"Reel",reach:393},
+{d:"23/11",t:"Reel",reach:160}
 ];
 // RECENT_POSTS_END
 
