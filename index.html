@@ -706,18 +706,18 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "23/11/2026",
-  followers: 0,
-  mediaCount: 0,
-  accountReach30dAvg: 18695,
-  newFollowersDayAvg: 74,
-  reachReelSet: 373,
-  followersDeltaText: "-14318 desde a última leitura",
-  mediaDeltaText: "-405 novas desde a última leitura (405 → 0)",
+  fetchedAt: "24/11/2026",
+  followers: 14398,
+  mediaCount: 405,
+  accountReach30dAvg: 19093,
+  newFollowersDayAvg: 77,
+  reachReelSet: 388,
+  followersDeltaText: "+14398 desde a última leitura",
+  mediaDeltaText: "405 novas desde a última leitura (0 → 405)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
   reachReelSetNote: "vs. 316 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (23/11):</b> <b>DADO</b>: a leitura de perfil veio zerada de novo (0 seguidores e 0 mídias, contra 14.318 e 405 na leitura anterior), então o delta de -14.318 não representa perda real. Já as métricas de alcance vieram preenchidas: alcance médio da conta em 18.695/dia (queda de cerca de 3,6% sobre 19.396), aquisição em 74 seguidores/dia (vs. 77) e alcance médio por Reel em 373 (alta de 7,2% sobre 348, ainda abaixo dos 683 de três janelas atrás). <b>HIPÓTESE</b>: o zero é falha intermitente da coleta de perfil, e não da conta, já que alcance e aquisição seguem ativos. Só dá pra confirmar na próxima leitura válida, e a recuperação do Reel ainda precisa de mais uma janela de alta para virar tendência.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (24/11):</b> <b>DADO</b>: a leitura de perfil voltou válida, com 14.398 seguidores (+80 sobre os 14.318 da última leitura boa) e 405 mídias, ou seja, nenhuma publicação nova no intervalo. O alcance médio da conta subiu para 19.093/dia (+2,1% sobre 18.695), a aquisição foi a 77 seguidores/dia (vs. 74) e o alcance médio por Reel chegou a 388 (+4,0% sobre 373, ainda bem abaixo dos 683 de quatro janelas atrás). <b>HIPÓTESE</b>: o ganho de alcance e seguidores sem mídia nova sugere efeito residual do conteúdo recente, e não de volume de postagem, mas isso só se sustenta se a próxima janela repetir a alta. Os textos de delta (+14398 e 405 novas) são artefato da leitura zerada anterior e não indicam crescimento real.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -751,21 +751,20 @@ const REACH_30D = [
 {d:"20/11",v:18612},
 {d:"21/11",v:14703},
 {d:"22/11",v:15890},
-{d:"23/11",v:0},
-{d:"23/11",v:4097}
+{d:"23/11",v:16040},
+{d:"24/11",v:0}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"25/10",t:"Carrossel",reach:373},
 {d:"03/11",t:"Reel",reach:316},
-{d:"12/11",t:"Reel",reach:316},
-{d:"13/11",t:"Carrossel",reach:136},
-{d:"17/11",t:"Reel",reach:621},
-{d:"18/11",t:"Reel",reach:373},
-{d:"19/11",t:"Reel",reach:393},
-{d:"23/11",t:"Reel",reach:160}
+{d:"12/11",t:"Reel",reach:328},
+{d:"13/11",t:"Carrossel",reach:145},
+{d:"17/11",t:"Reel",reach:628},
+{d:"18/11",t:"Reel",reach:387},
+{d:"19/11",t:"Reel",reach:409},
+{d:"23/11",t:"Reel",reach:189}
 ];
 // RECENT_POSTS_END
 
