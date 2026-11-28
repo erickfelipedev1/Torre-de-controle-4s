@@ -706,18 +706,18 @@ const FORMATS = [
 // se a automação estiver ativa — a próxima rodada vai sobrescrever.
 // PULSE_START
 const PULSE = {
-  fetchedAt: "27/11/2026",
-  followers: 0,
-  mediaCount: 0,
-  accountReach30dAvg: 17095,
-  newFollowersDayAvg: 71,
-  reachReelSet: 404,
-  followersDeltaText: "-14566 desde a última leitura",
-  mediaDeltaText: "-408 novas desde a última leitura (408 → 0)",
+  fetchedAt: "28/11/2026",
+  followers: 14592,
+  mediaCount: 409,
+  accountReach30dAvg: 17345,
+  newFollowersDayAvg: 73,
+  reachReelSet: 411,
+  followersDeltaText: "+14592 desde a última leitura",
+  mediaDeltaText: "409 novas desde a última leitura (0 → 409)",
   accountReach30dNote: "Média dos últ. 30 dias.",
   reachReelLabel: "Alcance médio/Reel · período atual",
-  reachReelSetNote: "vs. 338 na janela anterior.",
-  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (27/11):</b> <b>DADO</b>: a leitura de perfil veio zerada (0 seguidores e 0 mídias), o que não é queda real e sim falha de coleta, então o delta de -14.566 deve ser ignorado e a base segue em torno de 14.566 até nova leitura válida. O alcance médio da conta recuou para 17.095/dia (-3,4% sobre 17.701) e a aquisição foi a 71 seguidores/dia (-4,1% sobre 74), mas o alcance por Reel subiu para 404 (+2,5% sobre 394). <b>HIPÓTESE</b>: o Reel pode estar compensando a perda de tração de outros formatos, mas sem a contagem de mídias não dá pra saber se houve mudança no volume de publicação; só a próxima rodada com leitura de perfil válida confirma.",
+  reachReelSetNote: "vs. 340 na janela anterior.",
+  achadoHtml: "<b style='color:var(--pink)'>Achado atualizado (28/11):</b> <b>DADO</b>: a leitura de perfil voltou válida, com 14.592 seguidores (+26 sobre 14.566) e 409 mídias; o delta '+14592' e o '0 → 409' exibidos vêm da leitura zerada anterior e não são ganho real. Alcance médio da conta subiu para 17.345/dia (+1,5% sobre 17.095), aquisição foi a 73 seguidores/dia (+2,8% sobre 71) e o alcance por Reel foi a 411 (+1,7% sobre 404), a terceira alta seguida no Reel. <b>HIPÓTESE</b>: a recuperação conjunta de alcance e aquisição sugere que a queda da rodada passada foi oscilação e não perda estrutural, mas só mais uma leitura com mídias estáveis confirma.",
 };
 // PULSE_END
 // alcance diário de conta (misto) — últimos 30 dias, direto da API
@@ -751,23 +751,24 @@ const REACH_30D = [
 {d:"24/11",v:12232},
 {d:"25/11",v:21031},
 {d:"26/11",v:14255},
-{d:"27/11",v:0},
-{d:"27/11",v:3493}
+{d:"27/11",v:11014},
+{d:"28/11",v:0}
 ];
 // REACH_30D_END
 // Reels + Carrossel publicados nos últimos 35 dias, com reach individual — direto da API
 // RECENT_POSTS_START
 const RECENT_POSTS = [
-{d:"03/11",t:"Reel",reach:321},
-{d:"12/11",t:"Reel",reach:355},
-{d:"13/11",t:"Carrossel",reach:167},
-{d:"17/11",t:"Reel",reach:656},
-{d:"18/11",t:"Reel",reach:425},
-{d:"19/11",t:"Reel",reach:451},
-{d:"23/11",t:"Reel",reach:240},
-{d:"25/11",t:"Reel",reach:455},
-{d:"25/11",t:"Carrossel",reach:219},
-{d:"26/11",t:"Reel",reach:195}
+{d:"03/11",t:"Reel",reach:322},
+{d:"12/11",t:"Reel",reach:357},
+{d:"13/11",t:"Carrossel",reach:169},
+{d:"17/11",t:"Reel",reach:657},
+{d:"18/11",t:"Reel",reach:433},
+{d:"19/11",t:"Reel",reach:455},
+{d:"23/11",t:"Reel",reach:243},
+{d:"25/11",t:"Reel",reach:466},
+{d:"25/11",t:"Carrossel",reach:227},
+{d:"26/11",t:"Reel",reach:214},
+{d:"27/11",t:"Carrossel",reach:81}
 ];
 // RECENT_POSTS_END
 
